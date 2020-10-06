@@ -51,7 +51,9 @@ export class WorldTimeApiService implements WorldTimeApiService {
 
     // get available timezones
     getAllTimezones = async () => {
-        return [""];
+        // const request = await fetch(WorldTimeApiEndpoints.BASE_URL + WorldTimeApiEndpoints.TIMEZONES);
+        const request = await fetch("https://worldtimeapi.org/api/timezone");
+        return (await request.json()) as string[];
     };
 
     // /timezone/{area}/{location}/{region}:
