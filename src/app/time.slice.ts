@@ -9,7 +9,7 @@ type TimeState = {
 };
 
 const initialState: TimeState = {
-    isLoading: false,
+    isLoading: true,
     timezones: [],
 };
 
@@ -39,6 +39,7 @@ export const timeState = createSlice({
     extraReducers: (builder) => {
         builder.addCase(fetchAllTimezones.fulfilled, (state, { payload }) => {
             state.timezones = payload;
+            state.isLoading = false;
         });
     },
 });
