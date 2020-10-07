@@ -25,10 +25,7 @@ export const fetchAllTimezones = createAsyncThunk<
     }
 >("time/fetchAllTimezones", async (_, thunkAPI) => {
     const service = new thunkAPI.extra.worldTimeApiService();
-    const response = await service.getAllTimezones();
-
-    console.log("FETCH TIMEZONES", response);
-    return response;
+    return await service.getAllTimezones();
 });
 
 export const timeState = createSlice({
@@ -45,9 +42,5 @@ export const timeState = createSlice({
         });
     },
 });
-
-// export const getTimezonesAsync = (): AppThunk => (dispatch) => {
-//     dispatch(fetchAllTimezones());
-// };
 
 export default timeState.reducer;
