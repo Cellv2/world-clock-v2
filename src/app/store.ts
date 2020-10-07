@@ -1,5 +1,6 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import counterReducer from "../features/counter/counterSlice";
+import { WorldTimeApiService } from "../services/world-time-api/world-time-api.service";
 import timeReducer from "./time.slice";
 
 export const store = configureStore({
@@ -7,6 +8,14 @@ export const store = configureStore({
         counter: counterReducer,
         time: timeReducer,
     },
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+            thunk: {
+                extraArgument: {
+                    worldTimeApiService: WorldTimeApiService,
+                },
+            },
+        }),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
