@@ -1,6 +1,19 @@
 import { mocked } from 'ts-jest/utils'
 import { WorldTimeApiService } from "./world-time-api.service";
-jest.mock("./world-time-api.service");
+// jest.mock("./world-time-api.service", () => jest.fn());
+// jest.mock("./world-time-api.service");
+
+jest.mock("./world-time-api.service", () => {
+    // return { getAllTimezones: jest.fn(), getCurrentTime: jest.fn() };
+    return {
+        WorldTimeApiService: jest.fn().mockImplementation(() => {
+            return {
+                getAllTimezones: jest.fn(() => { return ["test"]}),
+                getCurrentTime: jest.fn(),
+            };
+        }),
+    };
+});
 
 // jest.mock("./world-time-api.service", () => {
 //     return {
@@ -12,8 +25,31 @@ jest.mock("./world-time-api.service");
 //     };
 // });
 
+// jest.mock('../../../adapters/Cache', () => jest.fn())
+// const Cache = require('../../../adapters/Cache')
+// const Fizz = require('../Fizz')
+
+// const retrieveRecords = jest.fn()
+// Cache.mockImplementation(() => ({retrieveRecords})
+
+
+
+// describe('CACHE', () => {
+//   it('should return a mock', () => {
+//     const fizz = new Fizz()
+//     fizz.doStuff()
+//     expect(retrieveRecords).toHaveBeenCalledTimes(1)
+//   })
+// })
+
+
+
 describe("services - world-time-api", () => {
     const MockedWorldTimeApiService = mocked(WorldTimeApiService, true);
+    const getAllTimezones = jest.fn();
+    const getCurrentTime = jest.fn();
+    // MockedWorldTimeApiService.mockImplementation(() => ({getAllTimezones, getCurrentTime}))
+    
     // @ts-expect-error
     // MockedWorldTimeApiService.mockImplementation(() => {
     //     return {
@@ -41,11 +77,11 @@ describe("services - world-time-api", () => {
         // console.log(mockInstance. )
         // console.log(mockInstance.getAllTimezones())
 
-        (mockInstance.getAllTimezones as jest.Mock).mockImplementationOnce((): string[] => {
-            return ["Mock 1", "Mock 2"];
-        })
+        // (mockInstance.getAllTimezones as jest.Mock).mockImplementationOnce((): string[] => {
+        //     return ["Mock 1", "Mock 2"];
+        // })
 
-        expect(new WorldTimeApiService().getAllTimezones()).toEqual(["Mock 1", "Mock 2"])
+        expect(MockedWorldTimeApiService.mock.instances[0].getAllTimezones()).toEqual(["Mock 1", "Mock 2"])
 
     })
 
