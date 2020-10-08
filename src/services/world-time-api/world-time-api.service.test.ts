@@ -1,6 +1,57 @@
+import { mocked } from 'ts-jest/utils'
 import { WorldTimeApiService } from "./world-time-api.service";
+jest.mock("./world-time-api.service");
+
+// jest.mock("./world-time-api.service", () => {
+//     return {
+//         WorldTimeApiService: jest.fn().mockImplementation(() => {
+//             return {
+//                 getAllTimezones: () => {},
+//             };
+//         }),
+//     };
+// });
 
 describe("services - world-time-api", () => {
+    const MockedWorldTimeApiService = mocked(WorldTimeApiService, true);
+    // @ts-expect-error
+    // MockedWorldTimeApiService.mockImplementation(() => {
+    //     return {
+    //         getAllTimezones: () => {return ""}
+    //     }
+    // })
+    
+    
+    beforeEach(() => {
+        MockedWorldTimeApiService.mockClear();
+        
+    })
+
+    // console.log(MockedWorldTimeApiService)
+
+    it("should call the constructor", () => {
+        // TS doesn't like mocking for some reason apparently
+        //@ts-expect-error
+        const mock = new MockedWorldTimeApiService();
+        // console.log(mock.getAllTimezones())
+        // console.log(MockedWorldTimeApiService.mock.instances[0])
+        const mockInstance = MockedWorldTimeApiService.mock.instances[0];
+        // console.log(MockedWorldTimeApiService.prototype.getAllTimezones())
+        // expect(mockInstance.getAllTimezones()).toReturn()
+        // console.log(mockInstance. )
+        // console.log(mockInstance.getAllTimezones())
+
+        (mockInstance.getAllTimezones as jest.Mock).mockImplementationOnce((): string[] => {
+            return ["Mock 1", "Mock 2"];
+        })
+
+        expect(new WorldTimeApiService().getAllTimezones()).toEqual(["Mock 1", "Mock 2"])
+
+    })
+
+    
+
+
     // it("should return a string[] of timezones", () => {
     //     const exampleTimezones = [
     //         "Africa/Abidjan",
@@ -34,5 +85,5 @@ describe("services - world-time-api", () => {
     //     ];
     // });
 
-    it("should set _useIp to true on construction");
+    it("should set _useIp to true on construction", () => {});
 });
