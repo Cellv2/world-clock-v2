@@ -3,11 +3,24 @@
 
 import { WorldTimeApiResponseSchema } from "../../models/world-time-api/time.model";
 
+export interface WorldTimeApiServiceConstructor {
+    new (): WorldTimeApiService;
+}
+
 export interface WorldTimeApiService {
     getAllTimezones: () => Promise<string[]>;
     getCurrentTime: () => Promise<number>;
 }
-export class WorldTimeApiService implements WorldTimeApiService {
+
+// export function createWorldTimeApiService (
+//     ctor: WorldTimeApiServiceConstructor
+// ): WorldTimeApiService  {
+//     return new ctor();
+// };
+
+// export class WorldTimeApiService implements WorldTimeApiService {
+// https://www.typescriptlang.org/docs/handbook/interfaces.html#difference-between-the-static-and-instance-sides-of-classes
+export const WorldTimeApiService: WorldTimeApiServiceConstructor = class WorldTimeApiService implements WorldTimeApiService {
     private _area: string | null = null;
     private _location: string | null = null;
     private _region: string | null = null;
