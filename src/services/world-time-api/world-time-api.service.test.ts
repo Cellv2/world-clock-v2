@@ -2,49 +2,30 @@ import { mocked } from 'ts-jest/utils'
 import { WorldTimeApiService } from "./world-time-api.service";
 // jest.mock("./world-time-api.service", () => jest.fn());
 // jest.mock("./world-time-api.service");
+jest.mock("./world-time-api.service");
 
 jest.mock("./world-time-api.service", () => {
-    // return { getAllTimezones: jest.fn(), getCurrentTime: jest.fn() };
     return {
         WorldTimeApiService: jest.fn().mockImplementation(() => {
             return {
-                getAllTimezones: jest.fn(() => { return ["test"]}),
-                getCurrentTime: jest.fn(),
+                getAllTimezones: () => {},
             };
         }),
     };
 });
 
-// jest.mock("./world-time-api.service", () => {
-//     return {
-//         WorldTimeApiService: jest.fn().mockImplementation(() => {
-//             return {
-//                 getAllTimezones: () => {},
-//             };
-//         }),
-//     };
-// });
-
-// jest.mock('../../../adapters/Cache', () => jest.fn())
-// const Cache = require('../../../adapters/Cache')
-// const Fizz = require('../Fizz')
-
-// const retrieveRecords = jest.fn()
-// Cache.mockImplementation(() => ({retrieveRecords})
-
-
-
-// describe('CACHE', () => {
-//   it('should return a mock', () => {
-//     const fizz = new Fizz()
-//     fizz.doStuff()
-//     expect(retrieveRecords).toHaveBeenCalledTimes(1)
-//   })
-// })
-
+// console.log(mocked(WorldTimeApiService));
 
 
 describe("services - world-time-api", () => {
+
+    beforeEach(() => {
+        MockedWorldTimeApiService.mockClear();
+        
+    })
+
+
+
     const MockedWorldTimeApiService = mocked(WorldTimeApiService, true);
     const getAllTimezones = jest.fn();
     const getCurrentTime = jest.fn();
@@ -58,14 +39,22 @@ describe("services - world-time-api", () => {
     // })
     
     
-    beforeEach(() => {
-        MockedWorldTimeApiService.mockClear();
-        
-    })
+
 
     // console.log(MockedWorldTimeApiService)
 
     it("should call the constructor", () => {
+
+        
+    jest.mock("./world-time-api.service", () => {
+        return {
+            WorldTimeApiService: jest.fn().mockImplementation(() => {
+                return {
+                    getAllTimezones: () => {},
+                };
+            }),
+        };
+    });
         // TS doesn't like mocking for some reason apparently
         //@ts-expect-error
         const mock = new MockedWorldTimeApiService();
@@ -80,6 +69,8 @@ describe("services - world-time-api", () => {
         // (mockInstance.getAllTimezones as jest.Mock).mockImplementationOnce((): string[] => {
         //     return ["Mock 1", "Mock 2"];
         // })
+
+        console.log(MockedWorldTimeApiService.mock.instances[0])
 
         expect(MockedWorldTimeApiService.mock.instances[0].getAllTimezones()).toEqual(["Mock 1", "Mock 2"])
 
