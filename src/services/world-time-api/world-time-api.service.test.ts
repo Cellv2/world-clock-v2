@@ -5,25 +5,47 @@
 
 import { mocked } from 'ts-jest/utils'
 import { WorldTimeApiService } from "./world-time-api.service";
+
+import Service from './world-time-api.service'
+
 // jest.mock("./world-time-api.service", () => jest.fn());
 // jest.mock("./world-time-api.service");
-jest.mock("./world-time-api.service");
+// jest.mock("./world-time-api.service");
 
-jest.mock("./world-time-api.service", () => {
-    return {
-        WorldTimeApiService: jest.fn().mockImplementation(() => {
-            return {
-                getAllTimezones: () => {},
-            };
-        }),
-    };
-});
+// jest.mock("./world-time-api.service", () => {
+//     return {
+//         getAllTimezones: jest.fn(() => { return 42})
+//     }
+// });
+
+
+// jest.mock("./world-time-api.service", () => {
+//     return {
+//         WorldTimeApiService: jest.fn().mockImplementation(() => {
+//             return {
+//                 getAllTimezones: () => {},
+//             };
+//         }),
+//     };
+// });
 
 
 // console.log(mocked(WorldTimeApiService));
 
 
 describe("services - world-time-api", () => {
+
+
+    it("has more tests, precious", async () => {
+        // jest.mock()
+        const service = new Service();
+        await service.getAllTimezones();
+        console.log(service.timezones)
+        // const mock = mocked(Service, true);
+        // console.log(mock.getAllTimezones())
+    })
+
+
     it("SHOULD BE TESTED!", () => {})
     // it("should set _useIp to true on construction", () => {});
     // // it("should return a string[] of timezones", () => {

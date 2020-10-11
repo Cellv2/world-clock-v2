@@ -79,3 +79,24 @@ export const WorldTimeApiService: WorldTimeApiServiceConstructor = class WorldTi
         return 0;
     };
 }
+
+
+// export const Service = {
+//     useIp: false,
+//     async getAllTimezones() {
+//         const request = await fetch("https://worldtimeapi.org/api/timezone");
+//         return (await request.json()) as string[];
+//     },
+// };
+
+class Service {
+    timezones: string[] = [];
+
+    async getAllTimezones() {
+        const request = await fetch("https://worldtimeapi.org/api/timezone");
+        this.timezones = (await request.json()) as string[];
+        // return (await request.json()) as string[];
+    }
+}
+
+export default Service;
