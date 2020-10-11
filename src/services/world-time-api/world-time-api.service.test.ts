@@ -8,6 +8,8 @@ import { WorldTimeApiService } from "./world-time-api.service";
 
 import Service from './world-time-api.service'
 
+import apiTimezones from './__tests__/apiData.json'
+
 // jest.mock("./world-time-api.service", () => jest.fn());
 // jest.mock("./world-time-api.service");
 // jest.mock("./world-time-api.service");
@@ -33,18 +35,30 @@ import Service from './world-time-api.service'
 // console.log(mocked(WorldTimeApiService));
 
 
+
 describe("services - world-time-api", () => {
+    const service = new Service();
+    const mockedService = mocked(service, true)
 
-
-    it("has more tests, precious", async () => {
+    fit("has more tests, precious", async () => {
         // jest.mock()
-        const service = new Service();
-        await service.getAllTimezones();
-        console.log(service.timezones)
-        // const mock = mocked(Service, true);
-        // console.log(mock.getAllTimezones())
-    })
 
+        // await service.getAllTimezones();
+
+        // mockedService.getAllTimezones.mockImplementation(() => { return Promise.resolve<string[]>([""])})
+
+        const spyGetAllTimezones = jest.spyOn(mockedService, "getAllTimezones");
+        await mockedService.getAllTimezones(); // this is not a good idea (it calls an actual API), but I'm still learning
+
+        expect(spyGetAllTimezones).toHaveBeenCalled();
+        expect(spyGetAllTimezones).toHaveBeenCalledTimes(1);
+
+        expect(mockedService.timezones).toEqual(apiTimezones);
+
+        // spyGetAllTimezones.mockResolvedValue(apiTimezones)
+        // expect(spyGetAllTimezones).toMatchObject(apiTimezones)
+    })
+ 
 
     it("SHOULD BE TESTED!", () => {})
     // it("should set _useIp to true on construction", () => {});
