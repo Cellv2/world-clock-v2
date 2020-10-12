@@ -26,23 +26,6 @@ export interface WorldTimeApiService {
 // https://www.typescriptlang.org/docs/handbook/interfaces.html#difference-between-the-static-and-instance-sides-of-classes
 export const WorldTimeApiService: WorldTimeApiServiceConstructor = class WorldTimeApiService
     implements WorldTimeApiService {
-    private _useIp: boolean = false;
-
-    // TODO: fill this in with a get request, perhaps add 'isLoading' property?
-    // private readonly _publicIpTimeInfo: WorldTimeApiResponseSchema = {};
-
-    // we use IP on page load, so this will be set and kept
-    constructor() {
-        this._useIp = true;
-    }
-
-    public get useIp(): boolean {
-        return this._useIp;
-    }
-    public set useIp(value: boolean) {
-        this._useIp = value;
-    }
-
     // get available timezones
     getAllTimezones = async () => {
         // const request = await fetch(WorldTimeApiEndpoints.BASE_URL + WorldTimeApiEndpoints.TIMEZONES);
@@ -50,23 +33,21 @@ export const WorldTimeApiService: WorldTimeApiServiceConstructor = class WorldTi
         return (await request.json()) as string[];
     };
 
-    // /timezone/{area}/{location}/{region}:
+    // /timezone/{area}/{location}/{region}
     getCurrentTime = async (
         area?: string,
         location?: string,
         region?: string
     ) => {
-        const endpoint = [area, location, region].filter(Boolean).join("/");
+        const timezone = [area, location, region].filter(Boolean).join("/");
+        const endpoint = Boolean(timezone) ? `timezone/${timezone}` : `ip`;
 
-        const request = await fetch(
-            `https://worldtimeapi.org/api/timezone/${endpoint}`
-        );
-        // console.log(await request.json());
+        const request = await fetch(`https://worldtimeapi.org/api/${endpoint}`);
 
         return (await request.json()) as WorldTimeApiResponseSchema;
     };
     // TESTS:
-    // if no params are passed, it should return with the API
+    // if no args are passed, it should return with the IP endpoint
 };
 
 class Service {

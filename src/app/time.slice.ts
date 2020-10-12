@@ -47,7 +47,8 @@ export const getCurrentTimeInTimezone = createAsyncThunk<
     }
 >("time/getCurrentTimeInTimezone", async (_, thunkAPI) => {
     const service = new thunkAPI.extra.worldTimeApiService();
-    return await service.getCurrentTime("Africa", "Abidjan");
+    // return await service.getCurrentTime("Africa", "Abidjan");
+    return await service.getCurrentTime();
 });
 
 export const timeState = createSlice({
