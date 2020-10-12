@@ -6,11 +6,17 @@ import { WorldTimeApiService } from "../services/world-time-api/world-time-api.s
 type TimeState = {
     isLoading: boolean;
     timezones: string[];
+    area: string | null;
+    location: string | null;
+    region: string | null;
 };
 
 const initialState: TimeState = {
     isLoading: true,
     timezones: [],
+    area: null,
+    location: null,
+    region: null,
 };
 
 // types cannot be inferred, so must be explicitly set

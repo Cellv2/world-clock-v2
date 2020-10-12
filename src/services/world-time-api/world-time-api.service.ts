@@ -20,10 +20,8 @@ export interface WorldTimeApiService {
 
 // export class WorldTimeApiService implements WorldTimeApiService {
 // https://www.typescriptlang.org/docs/handbook/interfaces.html#difference-between-the-static-and-instance-sides-of-classes
-export const WorldTimeApiService: WorldTimeApiServiceConstructor = class WorldTimeApiService implements WorldTimeApiService {
-    private _area: string | null = null;
-    private _location: string | null = null;
-    private _region: string | null = null;
+export const WorldTimeApiService: WorldTimeApiServiceConstructor = class WorldTimeApiService
+    implements WorldTimeApiService {
     private _useIp: boolean = false;
 
     // TODO: fill this in with a get request, perhaps add 'isLoading' property?
@@ -32,27 +30,6 @@ export const WorldTimeApiService: WorldTimeApiServiceConstructor = class WorldTi
     // we use IP on page load, so this will be set and kept
     constructor() {
         this._useIp = true;
-    }
-
-    public get area(): string | null {
-        return this._area;
-    }
-    public set area(value: string | null) {
-        this._area = value;
-    }
-
-    public get location(): string | null {
-        return this._location;
-    }
-    public set location(value: string | null) {
-        this._location = value;
-    }
-
-    public get region(): string | null {
-        return this._region;
-    }
-    public set region(value: string | null) {
-        this._region = value;
     }
 
     public get useIp(): boolean {
@@ -70,24 +47,10 @@ export const WorldTimeApiService: WorldTimeApiServiceConstructor = class WorldTi
     };
 
     // /timezone/{area}/{location}/{region}:
-    // get / set area
-    // get / set location
-    // get / set region
-
-    // get time for area/region/subregio
     getCurrentTime = async () => {
         return 0;
     };
-}
-
-
-// export const Service = {
-//     useIp: false,
-//     async getAllTimezones() {
-//         const request = await fetch("https://worldtimeapi.org/api/timezone");
-//         return (await request.json()) as string[];
-//     },
-// };
+};
 
 class Service {
     timezones: string[] = [];
