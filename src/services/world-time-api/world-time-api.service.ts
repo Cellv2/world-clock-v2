@@ -13,7 +13,7 @@ export interface WorldTimeApiService {
         area?: string,
         location?: string,
         region?: string
-    ) => Promise<number>;
+    ) => Promise<WorldTimeApiResponseSchema>;
 }
 
 // export function createWorldTimeApiService (
@@ -61,10 +61,12 @@ export const WorldTimeApiService: WorldTimeApiServiceConstructor = class WorldTi
         const request = await fetch(
             `https://worldtimeapi.org/api/timezone/${endpoint}`
         );
-        console.log(await request.json());
+        // console.log(await request.json());
 
-        return 0;
+        return (await request.json()) as WorldTimeApiResponseSchema;
     };
+    // TESTS:
+    // if no params are passed, it should return with the API
 };
 
 class Service {

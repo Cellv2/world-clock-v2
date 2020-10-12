@@ -5,7 +5,7 @@ import "./App.css";
 
 import { WorldTimeApiService } from "./services/world-time-api/world-time-api.service";
 import { useDispatch } from "react-redux";
-import { fetchAllTimezones } from "./app/time.slice";
+import { fetchAllTimezones, getCurrentTimeInTimezone } from "./app/time.slice";
 
 function App() {
     // const svc = new WorldTimeApiService();
@@ -14,7 +14,8 @@ function App() {
     const dispatch = useDispatch();
 
     // dispatch(getTimezonesAsync());
-    dispatch(fetchAllTimezones())
+    dispatch(fetchAllTimezones());
+    dispatch(getCurrentTimeInTimezone());
 
     return (
         <div className="App">
