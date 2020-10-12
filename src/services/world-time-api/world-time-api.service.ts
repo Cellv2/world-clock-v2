@@ -9,7 +9,11 @@ export interface WorldTimeApiServiceConstructor {
 
 export interface WorldTimeApiService {
     getAllTimezones: () => Promise<string[]>;
-    getCurrentTime: () => Promise<number>;
+    getCurrentTime: (
+        area?: string,
+        location?: string,
+        region?: string
+    ) => Promise<number>;
 }
 
 // export function createWorldTimeApiService (
@@ -47,7 +51,18 @@ export const WorldTimeApiService: WorldTimeApiServiceConstructor = class WorldTi
     };
 
     // /timezone/{area}/{location}/{region}:
-    getCurrentTime = async () => {
+    getCurrentTime = async (
+        area?: string,
+        location?: string,
+        region?: string
+    ) => {
+        const endpoint = [area, location, region].filter(Boolean).join("/");
+
+        const request = await fetch(
+            `https://worldtimeapi.org/api/timezone/${endpoint}`
+        );
+        console.log(await request.json());
+
         return 0;
     };
 };

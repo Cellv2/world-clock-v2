@@ -31,6 +31,10 @@ export const fetchAllTimezones = createAsyncThunk<
     }
 >("time/fetchAllTimezones", async (_, thunkAPI) => {
     const service = new thunkAPI.extra.worldTimeApiService();
+    
+    //testing this
+    const x = service.getCurrentTime("Africa", "Abidjan");
+    
     return await service.getAllTimezones();
 });
 
