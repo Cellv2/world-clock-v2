@@ -1,12 +1,16 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import counterReducer from "../features/counter/counterSlice";
+
 import { WorldTimeApiService } from "../services/world-time-api/world-time-api.service";
+
 import timeReducer from "./time.slice";
+import errorReducer from "./error.slice";
 
 export const store = configureStore({
     reducer: {
         counter: counterReducer,
         time: timeReducer,
+        error: errorReducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
