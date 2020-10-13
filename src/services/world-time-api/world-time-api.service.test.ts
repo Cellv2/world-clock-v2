@@ -10,20 +10,11 @@ jest.mock("./world-time-api.service", () => {
     const apiTimezones = require("./__tests__/apiData.json");
     return class {
         timezones = [];
-        // shouldResolve is only part of the test mock - it does not exist in the normal implementation
-        async getAllTimezones(shouldResolve: boolean = true): Promise<void> {
+        async getAllTimezones(): Promise<void> {
             return new Promise((resolve, reject) => {
                 process.nextTick(() => {
-                    if (shouldResolve) {
-                        this.timezones = apiTimezones;
-                        return resolve();
-                    } else {
-                        // reject({Error: "Failed to get timezones"})
-                        return reject("Failed to get timezones");
-                    }
-
-                    // reject({Error: "Failed to get timezones"});
-                    // return;
+                    this.timezones = apiTimezones;
+                    return resolve();
                 });
             });
         }
