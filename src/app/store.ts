@@ -4,13 +4,13 @@ import counterReducer from "../features/counter/counterSlice";
 import { WorldTimeApiService } from "../services/world-time-api/world-time-api.service";
 
 import timeReducer from "./time.slice";
-import errorReducer from "./error.slice";
+import notificationReducer from "./notification.slice";
 
 export const store = configureStore({
     reducer: {
         counter: counterReducer,
         time: timeReducer,
-        error: errorReducer,
+        notification: notificationReducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
