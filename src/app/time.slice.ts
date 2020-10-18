@@ -64,14 +64,21 @@ export const timeState = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            .addCase(fetchAllTimezones.pending, (state, action) => {
+                state.isLoading = true;
+            })
             .addCase(fetchAllTimezones.fulfilled, (state, { payload }) => {
                 state.timezones = payload;
                 state.isLoading = false;
+            })
+            .addCase(getCurrentTimeInTimezone.pending, (state, action) => {
+                state.isLoading = true;
             })
             .addCase(
                 getCurrentTimeInTimezone.fulfilled,
                 (state, { payload }) => {
                     state.currentTimeResponse = payload;
+                    state.isLoading = false;
                 }
             );
         // TODO: add rejection cases
