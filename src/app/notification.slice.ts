@@ -1,7 +1,5 @@
-import { createAction, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { fetchAllTimezones } from "./time.slice";
-
-// TODO: correctly type this
 
 type NotificationTypes = "error" | "success" | "warning" | "information";
 

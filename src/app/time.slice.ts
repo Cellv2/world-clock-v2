@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import { AppThunk, RootState } from "./store";
 
 import { WorldTimeApiService } from "../services/world-time-api/world-time-api.service";
 import { WorldTimeApiResponseSchema } from "../models/world-time-api/time.model";
@@ -52,7 +51,6 @@ export const getCurrentTimeInTimezone = createAsyncThunk<
     }
 >("time/getCurrentTimeInTimezone", async (_, thunkAPI) => {
     const service = new thunkAPI.extra.worldTimeApiService();
-    // return await service.getCurrentTime("Africa", "Abidjan");
     return await service.getCurrentTime();
 });
 
@@ -65,16 +63,17 @@ export const timeState = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(fetchAllTimezones.fulfilled, (state, { payload }) => {
-            state.timezones = payload;
-            state.isLoading = false;
-        });
-        builder.addCase(
-            getCurrentTimeInTimezone.fulfilled,
-            (state, { payload }) => {
-                state.currentTimeResponse = payload;
-            }
-        );
+        builder
+            .addCase(fetchAllTimezones.fulfilled, (state, { payload }) => {
+                state.timezones = payload;
+                state.isLoading = false;
+            })
+            .addCase(
+                getCurrentTimeInTimezone.fulfilled,
+                (state, { payload }) => {
+                    state.currentTimeResponse = payload;
+                }
+            );
         // TODO: add rejection cases
     },
 });
