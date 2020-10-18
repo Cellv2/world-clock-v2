@@ -1,6 +1,5 @@
 import { createAction, createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-const setActiveError = createAction<Notification>("setActiveError");
+import { fetchAllTimezones } from "./time.slice";
 
 // TODO: correctly type this
 
@@ -28,12 +27,12 @@ export const notificationSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(setActiveError, (state, action) => {
+        builder.addCase(fetchAllTimezones.rejected, (state, action) => {
             const notification = {
-                message: action.payload.message,
+                message: action.error.message,
                 type: "error",
             } as Notification;
-            state.notifications.push(action.payload);
+            state.notifications.push(notification);
         });
     },
 });

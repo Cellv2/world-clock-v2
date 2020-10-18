@@ -24,6 +24,11 @@ const initialState: TimeState = {
 
 // types cannot be inferred, so must be explicitly set
 // https://redux-toolkit.js.org/usage/usage-with-typescript#createasyncthunk
+/**
+ * Get all timezones from external API
+ *
+ * * Rejected case lives in notification slice
+ */
 export const fetchAllTimezones = createAsyncThunk<
     string[],
     void,
@@ -64,7 +69,6 @@ export const timeState = createSlice({
             state.timezones = payload;
             state.isLoading = false;
         });
-        // TODO: add rejection cases
         builder.addCase(
             getCurrentTimeInTimezone.fulfilled,
             (state, { payload }) => {
