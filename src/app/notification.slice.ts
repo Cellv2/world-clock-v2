@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { fetchAllTimezones } from "./time.slice";
+import { fetchAllTimezones, getCurrentTimeInTimezone } from "./time.slice";
 
 type NotificationTypes = "error" | "success" | "warning" | "information";
 
@@ -25,13 +25,21 @@ export const notificationSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(fetchAllTimezones.rejected, (state, action) => {
-            const notification = {
-                message: action.error.message,
-                type: "error",
-            } as Notification;
-            state.notifications.push(notification);
-        });
+        builder
+            .addCase(fetchAllTimezones.rejected, (state, action) => {
+                const notification = {
+                    message: action.error.message,
+                    type: "error",
+                } as Notification;
+                state.notifications.push(notification);
+            })
+            .addCase(getCurrentTimeInTimezone.rejected, (state, action) => {
+                const notification = {
+                    message: action.error.message,
+                    type: "error",
+                } as Notification;
+                state.notifications.push(notification);
+            });
     },
 });
 
