@@ -1,6 +1,7 @@
 import { mocked } from "ts-jest/utils";
 
 import apiTimezones from "./__tests__/apiData.json";
+import currentTimeData from "./__tests__/currentTimeData.json";
 
 import Service from "./world-time-api.service";
 import { WorldTimeApiResponseSchema } from "../../models/world-time-api/time.model";
@@ -32,7 +33,7 @@ jest.mock("./world-time-api.service", () => {
             const timezone = [area, location, region].filter(Boolean).join("/");
             const endpoint = Boolean(timezone) ? `timezone/${timezone}` : `ip`;
             const data = currentTimeData.find(
-                (item) => item.timezone === timezone ?? "ip"
+                (item) => item.timezone === endpoint
             );
 
             return new Promise((resolve, reject) => {
@@ -108,30 +109,54 @@ describe("services - world-time-api - getCurrentTime", () => {
 
     describe("should return the timezone data requested", () => {
         it("should only return area", async () => {
-            await mockedService.getCurrentTime("Etc/UTC");
+            const data = await mockedService.getCurrentTime("Etc/UTC");
 
             expect(spy).toHaveBeenCalledTimes(1);
             expect(spy).toHaveBeenCalled();
-            expect(spy).not.toHaveBeenCalledWith(""); // ip test
+            expect(spy).not.toHaveBeenCalledWith(); // ip test
             expect(spy).toHaveBeenCalledWith("Etc/UTC");
+
+            expect(data).toEqual(currentTimeData[0]); // check against hard coded data
         });
 
         it("should only return area/location", async () => {
-            await mockedService.getCurrentTime("Europe", "Amsterdam");
+            const data = await mockedService.getCurrentTime(
+                "Europe",
+                "Amsterdam"
+            );
 
             expect(spy).toHaveBeenCalledTimes(1);
             expect(spy).toHaveBeenCalled();
-            expect(spy).not.toHaveBeenCalledWith(""); // ip test
+            expect(spy).not.toHaveBeenCalledWith(); // ip test
             expect(spy).toHaveBeenCalledWith("Europe", "Amsterdam");
+
+            expect(data).toEqual(currentTimeData[1]); // check against hard coded data
         });
-        
+
         it("should only return area/location/region", async () => {
-            await mockedService.getCurrentTime("America", "Argentina", "Salta");
+            const data = await mockedService.getCurrentTime(
+                "America",
+                "Argentina",
+                "Salta"
+            );
 
             expect(spy).toHaveBeenCalledTimes(1);
             expect(spy).toHaveBeenCalled();
-            expect(spy).not.toHaveBeenCalledWith(""); // ip test
+            expect(spy).not.toHaveBeenCalledWith(); // ip test
             expect(spy).toHaveBeenCalledWith("America", "Argentina", "Salta");
+
+            expect(data).toEqual(currentTimeData[2]); // check against hard coded data
+        });
+
+        it("should return IP with no args", async () => {
+            const data = await mockedService.getCurrentTime();
+
+            expect(spy).toHaveBeenCalled();
+            expect(spy).toHaveBeenCalledTimes(1);
+            expect(spy).not.toBeCalledWith("Europe/London");
+            expect(spy).toHaveBeenCalledWith();
+
+            expect(data).toEqual(currentTimeData[3]);
         });
     });
 });
