@@ -107,8 +107,31 @@ describe("services - world-time-api - getCurrentTime", () => {
     it("should reject if the timezone is invalid", () => {});
 
     describe("should return the timezone data requested", () => {
-        it("should only return area", () => {});
-        it("should only return area/location", () => {});
-        it("should only return area/location/region", () => {});
+        it("should only return area", async () => {
+            await mockedService.getCurrentTime("Etc/UTC");
+
+            expect(spy).toHaveBeenCalledTimes(1);
+            expect(spy).toHaveBeenCalled();
+            expect(spy).not.toHaveBeenCalledWith(""); // ip test
+            expect(spy).toHaveBeenCalledWith("Etc/UTC");
+        });
+
+        it("should only return area/location", async () => {
+            await mockedService.getCurrentTime("Europe", "Amsterdam");
+
+            expect(spy).toHaveBeenCalledTimes(1);
+            expect(spy).toHaveBeenCalled();
+            expect(spy).not.toHaveBeenCalledWith(""); // ip test
+            expect(spy).toHaveBeenCalledWith("Europe", "Amsterdam");
+        });
+        
+        it("should only return area/location/region", async () => {
+            await mockedService.getCurrentTime("America", "Argentina", "Salta");
+
+            expect(spy).toHaveBeenCalledTimes(1);
+            expect(spy).toHaveBeenCalled();
+            expect(spy).not.toHaveBeenCalledWith(""); // ip test
+            expect(spy).toHaveBeenCalledWith("America", "Argentina", "Salta");
+        });
     });
 });
