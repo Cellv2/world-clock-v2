@@ -58,6 +58,15 @@ class Service {
         this.timezones = (await request.json()) as string[];
         // return (await request.json()) as string[];
     }
+
+    async getCurrentTime(area?: string, location?: string, region?: string) {
+        const timezone = [area, location, region].filter(Boolean).join("/");
+        const endpoint = Boolean(timezone) ? `timezone/${timezone}` : `ip`;
+
+        const request = await fetch(`https://worldtimeapi.org/api/${endpoint}`);
+
+        return (await request.json()) as WorldTimeApiResponseSchema;
+    }
 }
 
 export default Service;
