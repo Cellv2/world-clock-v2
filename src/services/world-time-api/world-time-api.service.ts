@@ -51,12 +51,9 @@ export const WorldTimeApiService: WorldTimeApiServiceConstructor = class WorldTi
 };
 
 class Service {
-    timezones: string[] = [];
-
     async getAllTimezones() {
         const request = await fetch("https://worldtimeapi.org/api/timezone");
-        this.timezones = (await request.json()) as string[];
-        // return (await request.json()) as string[];
+        return (await request.json()) as string[];
     }
 
     async getCurrentTime(area?: string, location?: string, region?: string) {
