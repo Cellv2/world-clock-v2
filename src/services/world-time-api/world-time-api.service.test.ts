@@ -11,17 +11,12 @@ import { WorldTimeApiResponseSchema } from "../../models/world-time-api/time.mod
 jest.mock("./world-time-api.service", () => {
     const apiTimezones = require("./__tests__/apiData.json");
     const currentTimeData = require("./__tests__/currentTimeData.json") as WorldTimeApiResponseSchema[];
-    const Etc_UTC = currentTimeData[0];
-    const Europe_Amsterdam = currentTimeData[1];
-    const America_Argentina_Salta = currentTimeData[2];
 
     return class {
-        timezones = [];
         async getAllTimezones(): Promise<void> {
             return new Promise((resolve, reject) => {
                 process.nextTick(() => {
-                    this.timezones = apiTimezones;
-                    return resolve();
+                    return resolve(apiTimezones);
                 });
             });
         }
@@ -61,11 +56,11 @@ describe("services - world-time-api - getAllTimezones", () => {
         });
 
         it("should set timezones", async () => {
-            await mockedService.getAllTimezones();
+            const timezones = await mockedService.getAllTimezones();
             expect(spyGetAllTimezones).toHaveBeenCalled();
             expect(spyGetAllTimezones).toHaveBeenCalledTimes(1);
 
-            expect(mockedService.timezones).toEqual(apiTimezones);
+            expect(timezones).toEqual(apiTimezones);
         });
     });
 
