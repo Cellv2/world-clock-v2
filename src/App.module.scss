@@ -1,0 +1,17 @@
+@import "styles/colours";
+
+.app {
+    align-items: center;
+    background-color: $light-bg;
+    color: $light-text;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    font-size: calc(10px + 2vmin);
+    justify-content: center;
+    text-align: center;
+}
+
+.container {
+    width: 65vw;
+}
