@@ -1,0 +1,8 @@
+@import "styles/_colours.scss";
+
+.notAvailable {
+    color: $light-accent;
+    font-size: medium;
+    font-style: italic;
+    margin-top: 2rem;
+}
