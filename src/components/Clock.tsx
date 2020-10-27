@@ -1,20 +1,22 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { ValueType } from "react-select";
 
 import ClockFace from "./ClockFace";
-import AreaSelect from "./AreaSelect"
+import AreaSelect from "./AreaSelect";
 import RegionSelect from "./RegionSelect";
-import SubRegionSelect from './SubRegionSelect'
+import SubRegionSelect from "./SubRegionSelect";
 
 import { WorldTimeApiResponseSchema } from "../models/world-time-api/time.model";
 import { handleFetchErrors } from "../helpers/error-helpers";
+import { fetchAllTimezones, getCurrentTimeInTimezone } from "../app/time.slice";
 
 type Props = {};
 type State = {
     errorObj: {
         activeError: boolean;
         error: any;
-    }
+    };
     time: WorldTimeApiResponseSchema;
     areas: string[];
     selectedArea: string | null;
@@ -24,6 +26,17 @@ type State = {
     selectedSubRegion: string | null;
     timeZones: string[];
     usingIP: boolean;
+};
+
+const ClockFn = () => {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(fetchAllTimezones());
+        dispatch(getCurrentTimeInTimezone());
+    }, [dispatch]);
+
+    return <p>Testing</p>;
 };
 
 class Clock extends Component<Props, State> {
@@ -36,33 +49,36 @@ class Clock extends Component<Props, State> {
             .then(handleFetchErrors)
             .then((json: string[]) => {
                 // response will always be area/region per the API schema, so we want arr[0]
-                const areas: string[] = json.map(area => {
+                const areas: string[] = json.map((area) => {
                     return area.split("/")[0];
                 });
                 const uniqueAreas = [...Array.from(new Set(areas))];
 
-                this.setState({
-                    timeZones: json,
-                    areas: uniqueAreas,
-                    selectedArea: null,
-                    errorObj: {
-                        activeError: false,
-                        error: null
-                    }
-                },
+                this.setState(
+                    {
+                        timeZones: json,
+                        areas: uniqueAreas,
+                        selectedArea: null,
+                        errorObj: {
+                            activeError: false,
+                            error: null,
+                        },
+                    },
                     () => this.fetchTime(initialTZ)
                 );
             })
             .catch((err: any) => {
-                console.error("Something went wrong with the request - Is the API down for maintenance? The error is: ");
+                console.error(
+                    "Something went wrong with the request - Is the API down for maintenance? The error is: "
+                );
                 console.error(err);
 
-                this.setState(prevState => ({
+                this.setState((prevState) => ({
                     ...prevState,
                     errorObj: {
                         activeError: true,
-                        error: err
-                    }
+                        error: err,
+                    },
                 }));
             });
     }
@@ -72,10 +88,13 @@ class Clock extends Component<Props, State> {
     }
 
     fetchTime = (tZ: string) => {
-        const baseApiUrl = "https://worldtimeapi.org/api"
+        const baseApiUrl = "https://worldtimeapi.org/api";
 
         // a call to IP does not include /timezone, so we need to do a check to see
-        const apiToCall = tZ !== "ip" ? `${baseApiUrl}/timezone/${tZ}` : `${baseApiUrl}/${tZ}`;
+        const apiToCall =
+            tZ !== "ip"
+                ? `${baseApiUrl}/timezone/${tZ}`
+                : `${baseApiUrl}/${tZ}`;
 
         fetch(apiToCall)
             .then(handleFetchErrors)
@@ -88,14 +107,15 @@ class Clock extends Component<Props, State> {
                 });
             })
             .catch((err) => console.error(err));
-    }
+    };
 
-    handleAreaOnChange = (event: ValueType<{value: string, label: string}>) => {
+    handleAreaOnChange = (
+        event: ValueType<{ value: string; label: string }>
+    ) => {
         const value = (event as {
             value: string;
             label: string;
         }).value;
-
 
         fetch(`https://worldtimeapi.org/api/timezone/${value}`)
             .then(handleFetchErrors)
@@ -142,9 +162,11 @@ class Clock extends Component<Props, State> {
             ...prevState,
             selectedArea: value,
         }));
-    }
+    };
 
-    handleRegionOnChange = (event: ValueType<{value: string, label: string}>) => {
+    handleRegionOnChange = (
+        event: ValueType<{ value: string; label: string }>
+    ) => {
         const value = (event as { value: string; label: string }).value;
 
         this.setState(
@@ -156,7 +178,11 @@ class Clock extends Component<Props, State> {
             () => {
                 // need to do this here as selectedRegion is actually set in the setState directly above
                 let filteredSubRegions: string[] = [];
-                if (this.state.subRegions && this.state.subRegions.length > 0 && this.state.selectedRegion) {
+                if (
+                    this.state.subRegions &&
+                    this.state.subRegions.length > 0 &&
+                    this.state.selectedRegion
+                ) {
                     filteredSubRegions = this.state.subRegions.filter(
                         (subRegion) => {
                             return (
@@ -174,11 +200,13 @@ class Clock extends Component<Props, State> {
                 }
             }
         );
-    }
+    };
 
     // TODO: ??
     // This could be done nicer, and even merged into handleRegionOnChange through a 'type' param, but is it worth it for like 10 lines of code?
-    handleSubRegionOnChange = (event: ValueType<{value: string, label: string}>) => {
+    handleSubRegionOnChange = (
+        event: ValueType<{ value: string; label: string }>
+    ) => {
         const value = (event as { value: string; label: string }).value;
         this.setState(
             (prevState) => ({
@@ -190,30 +218,56 @@ class Clock extends Component<Props, State> {
                     `${this.state.selectedArea}/${this.state.selectedSubRegion}`
                 )
         );
-    }
+    };
 
     render() {
         if (this.state !== null && this.state.errorObj.activeError) {
-            return <div>
-                <p>Sorry, something went wrong when trying to hit the APIs</p>
-                <p>Is <a href="http://worldtimeapi.org/"><em>worldtimeapi.org/</em></a> down?</p>
-                <p>The error was: {this.state.errorObj.error.stack}</p>
-            </div>
-        } else if (this.state === null || this.state.time === null || this.state.time === undefined || this.state.timeZones === null || this.state.areas === null) {
+            return (
+                <div>
+                    <p>
+                        Sorry, something went wrong when trying to hit the APIs
+                    </p>
+                    <p>
+                        Is{" "}
+                        <a href="http://worldtimeapi.org/">
+                            <em>worldtimeapi.org/</em>
+                        </a>{" "}
+                        down?
+                    </p>
+                    <p>The error was: {this.state.errorObj.error.stack}</p>
+                </div>
+            );
+        } else if (
+            this.state === null ||
+            this.state.time === null ||
+            this.state.time === undefined ||
+            this.state.timeZones === null ||
+            this.state.areas === null
+        ) {
             return <div>Reaching out to the APIs...</div>;
         } else {
             let filteredSubRegions: string[] = [];
-            if (this.state.subRegions && this.state.subRegions.length > 0 && this.state.selectedRegion) {
-                filteredSubRegions = this.state.subRegions.filter(subRegion => {
-                    return (
-                        subRegion.split("/")[0] === this.state.selectedRegion
-                    );
-                })
+            if (
+                this.state.subRegions &&
+                this.state.subRegions.length > 0 &&
+                this.state.selectedRegion
+            ) {
+                filteredSubRegions = this.state.subRegions.filter(
+                    (subRegion) => {
+                        return (
+                            subRegion.split("/")[0] ===
+                            this.state.selectedRegion
+                        );
+                    }
+                );
             }
 
             return (
                 <>
-                    <ClockFace time={this.state.time} usingIp={this.state.usingIP} />
+                    <ClockFace
+                        time={this.state.time}
+                        usingIp={this.state.usingIP}
+                    />
                     <br />
                     <AreaSelect
                         areas={this.state.areas}
@@ -227,17 +281,19 @@ class Clock extends Component<Props, State> {
                             handleRegionOnChange={this.handleRegionOnChange}
                         />
                     )}
-                    {filteredSubRegions.length > 0 &&
+                    {filteredSubRegions.length > 0 && (
                         <SubRegionSelect
-                        subRegions={filteredSubRegions}
-                        selectedSubRegion={this.state.selectedSubRegion}
-                        handleSubRegionOnChange={this.handleSubRegionOnChange}
+                            subRegions={filteredSubRegions}
+                            selectedSubRegion={this.state.selectedSubRegion}
+                            handleSubRegionOnChange={
+                                this.handleSubRegionOnChange
+                            }
                         />
-                    }
+                    )}
                 </>
             );
         }
     }
 }
 
-export default Clock;
+export default ClockFn;

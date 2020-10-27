@@ -18,8 +18,8 @@ function App() {
     const dispatch = useDispatch();
 
     // dispatch(getTimezonesAsync());
-    dispatch(fetchAllTimezones());
-    dispatch(getCurrentTimeInTimezone());
+    // dispatch(fetchAllTimezones());
+    // dispatch(getCurrentTimeInTimezone());
 
     return (
         <div className={styles.app}>
