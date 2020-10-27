@@ -17,8 +17,7 @@
         "resolveJsonModule": true,
         "isolatedModules": true,
         "noEmit": true,
-        "jsx": "react",
-        "noFallthroughCasesInSwitch": true, // https://github.com/facebook/create-react-app/issues/9429
+        "jsx": "react"
     },
     "include": [
         "src"
