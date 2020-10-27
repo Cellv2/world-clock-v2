@@ -1,4 +1,5 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
 import counterReducer from "../features/counter/counterSlice";
 
 import { WorldTimeApiService } from "../services/world-time-api/world-time-api.service";
@@ -23,9 +24,13 @@ export const store = configureStore({
 });
 
 export type RootState = ReturnType<typeof store.getState>;
+
 export type AppThunk<ReturnType = void> = ThunkAction<
     ReturnType,
     RootState,
     unknown,
     Action<string>
 >;
+
+export type AppDispatch = typeof store.dispatch;
+export const useAppDispatch = () => useDispatch<AppDispatch>(); //hook to resolve dispatch types
