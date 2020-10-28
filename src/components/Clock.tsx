@@ -28,12 +28,27 @@ type State = {
     usingIP: boolean;
 };
 
+type Area = Record<string, string | Location>
+type Location = Record<string, string | Region>
+type Region = Record<string, string>
+
+const x: Area = {
+    America: {
+        Adak: "Adak",
+        Anchorage: "Anchorage",
+        Argentina: {
+            Catamarca: "Catamarca",
+        },
+    },
+    CET: "CET"
+};
+
 const ClockFn = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(fetchAllTimezones());
-        dispatch(getCurrentTimeInTimezone());
+        // dispatch(fetchAllTimezones());
+        // dispatch(getCurrentTimeInTimezone());
     }, [dispatch]);
 
     return <p>Testing</p>;
