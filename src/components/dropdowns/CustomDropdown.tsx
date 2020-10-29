@@ -21,13 +21,10 @@ const CustomValueContainer = ({ children, ...props }) => {
 };
 
 type Props = {
-    options: { value: string; label: string }[];
+    options: CustomDropdownValue[];
     label: string;
     name: string;
-    handleOnChange: (
-        // event: ValueType<{ value: string; label: string }>
-        event: CustomDropdownValue
-    ) => void;
+    handleOnChange: (event: CustomDropdownValue) => void;
     value: ValueType<{ value: string; label: string }> | null; //we do this to keep in line with the react-select's API (https://react-select.com/props#statemanager-props)
 };
 
@@ -35,7 +32,7 @@ const CustomDropdown = (props: Props) => {
     return (
         <Select
             options={props.options}
-            onChange={e => props.handleOnChange(e as CustomDropdownValue)}
+            onChange={(e) => props.handleOnChange(e as CustomDropdownValue)}
             placeholder={props.label}
             isSearchable
             components={{
