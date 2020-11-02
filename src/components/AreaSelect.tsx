@@ -1,17 +1,17 @@
 import React from "react";
-import { useAppDispatch } from "../app/store";
+import { useSelector } from "react-redux";
 
 import CustomDropdown from "./dropdowns/CustomDropdown";
 
+import { useAppDispatch } from "../app/store";
 import { replaceSlashAndUnderscore } from "../helpers/utils";
-
-import styles from "./AreaSelect.module.scss";
-import { useSelector } from "react-redux";
 import {
     selectedAreaSelector,
     setSelectedArea,
     timezoneObjSelector,
 } from "../app/time.slice";
+
+import styles from "./AreaSelect.module.scss";
 
 type Props = {};
 

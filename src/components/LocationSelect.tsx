@@ -1,13 +1,10 @@
 import React from "react";
-import { ValueType } from "react-select";
+import { useSelector } from "react-redux";
 
 import CustomDropdown from "./dropdowns/CustomDropdown";
 
-import { WorldTimeApiResponseSchema } from "../models/world-time-api/time.model";
+import { useAppDispatch } from "../app/store";
 import { replaceSlashAndUnderscore } from "../helpers/utils";
-
-import styles from "./LocationSelect.module.scss";
-import { useDispatch, useSelector } from "react-redux";
 import {
     selectedAreaSelector,
     selectedLocationSelector,
@@ -15,13 +12,9 @@ import {
     setSelectedLocation,
 } from "../app/time.slice";
 
-type Props = {
-    // locations: string[] | WorldTimeApiResponseSchema;
-    // selectedLocation: string | null;
-    // handleRegionOnChange: (
-    //     event: ValueType<{ value: string; label: string }>
-    // ) => void;
-};
+import styles from "./LocationSelect.module.scss";
+
+type Props = {};
 
 const valueToCustomDropdownValue = (value: string): CustomDropdownValue => {
     const dropdownValue = { label: replaceSlashAndUnderscore(value), value };
@@ -40,7 +33,7 @@ const generateSelectOptions = (values: string[]): CustomDropdownValue[] => {
 };
 
 const LocationSelect = (props: Props) => {
-    const dispatch = useDispatch();
+    const appDispatch = useAppDispatch();
     const selectedArea = useSelector(selectedAreaSelector);
     const selectedLocation = useSelector(selectedLocationSelector);
     const timezoneObj = useSelector(timezoneObjSelector);
@@ -61,7 +54,7 @@ const LocationSelect = (props: Props) => {
                 <CustomDropdown
                     options={generateSelectOptions(locations)}
                     handleOnChange={(e) =>
-                        dispatch(setSelectedLocation(e.value))
+                        appDispatch(setSelectedLocation(e.value))
                     }
                     value={
                         selectedLocation !== null
