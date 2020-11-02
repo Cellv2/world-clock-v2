@@ -4,7 +4,7 @@ import { ValueType } from "react-select";
 
 import ClockFace from "./ClockFace";
 import AreaSelect from "./AreaSelect";
-import RegionSelect from "./RegionSelect";
+import LocationSelect from "./RegionSelect";
 import SubRegionSelect from "./SubRegionSelect";
 
 import { WorldTimeApiResponseSchema } from "../models/world-time-api/time.model";
@@ -14,6 +14,7 @@ import {
     getCurrentTimeInTimezone,
     selectedAreaSelector,
     selectedLocationSelector,
+    selectedRegionSelector,
     timezoneObjSelector,
 } from "../app/time.slice";
 
@@ -51,8 +52,8 @@ const x: Area = {
 
 const Clock = () => {
     const dispatch = useDispatch();
-    const selectedArea = useSelector(selectedAreaSelector)
-    const selectedLocation = useSelector(selectedLocationSelector)
+    const selectedArea = useSelector(selectedAreaSelector);
+    const selectedLocation = useSelector(selectedLocationSelector);
 
     useEffect(() => {
         // dispatch(fetchAllTimezones());
@@ -65,7 +66,7 @@ const Clock = () => {
         <>
             <p>Testing</p>
             <AreaSelect />
-            {selectedArea && <p>YOOOOO</p>}
+            {selectedArea && <LocationSelect />}
         </>
     );
 };

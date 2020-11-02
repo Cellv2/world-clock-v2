@@ -80,6 +80,9 @@ export const timeState = createSlice({
         setSelectedArea: (state, action: PayloadAction<string>) => {
             state.selectedArea = action.payload;
         },
+        setSelectedLocation: (state, action: PayloadAction<string>) => {
+            state.selectedLocation = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -104,7 +107,7 @@ export const timeState = createSlice({
     },
 });
 
-export const { setSelectedArea } = timeState.actions;
+export const { setSelectedArea, setSelectedLocation } = timeState.actions;
 
 export const selectedAreaSelector = (state: RootState) =>
     state.time.selectedArea;
