@@ -6,7 +6,7 @@ import CustomDropdown from "./dropdowns/CustomDropdown";
 import { WorldTimeApiResponseSchema } from "../models/world-time-api/time.model";
 import { replaceSlashAndUnderscore } from "../helpers/utils";
 
-import styles from "./RegionSelect.module.scss";
+import styles from "./LocationSelect.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import {
     selectedAreaSelector,

@@ -4,7 +4,7 @@ import { ValueType } from "react-select";
 
 import ClockFace from "./ClockFace";
 import AreaSelect from "./AreaSelect";
-import LocationSelect from "./RegionSelect";
+import LocationSelect from "./LocationSelect";
 import SubRegionSelect from "./SubRegionSelect";
 
 import { WorldTimeApiResponseSchema } from "../models/world-time-api/time.model";
