@@ -54,11 +54,9 @@ const AreaSelect = (props: Props) => {
                     label="Area:"
                 />
                 {!selectedArea && (
-                    <>
-                        <div className={styles.notAvailable}>
-                            Please select an area
-                        </div>
-                    </>
+                    <div className={styles.notAvailable}>
+                        Please select an area
+                    </div>
                 )}
             </>
         );
