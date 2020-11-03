@@ -6,7 +6,7 @@ import { RootState } from "./store";
 
 type Area = Record<string, string | Location>;
 type Location = Record<string, string | Region>;
-type Region = Record<string, string>;
+type Region = Record<string, string>; //! index typing may fail - https://github.com/microsoft/TypeScript/issues/21760
 
 type TimeState = {
     isLoading: boolean;

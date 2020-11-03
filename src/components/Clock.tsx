@@ -5,7 +5,7 @@ import { ValueType } from "react-select";
 import ClockFace from "./ClockFace";
 import AreaSelect from "./AreaSelect";
 import LocationSelect from "./LocationSelect";
-import SubRegionSelect from "./SubRegionSelect";
+import RegionSelect from "./RegionSelect";
 
 import { WorldTimeApiResponseSchema } from "../models/world-time-api/time.model";
 import { handleFetchErrors } from "../helpers/error-helpers";
@@ -67,6 +67,7 @@ const Clock = () => {
             <p>Testing</p>
             <AreaSelect />
             {selectedArea && <LocationSelect />}
+            {selectedArea && selectedLocation && <RegionSelect />}
         </>
     );
 };
