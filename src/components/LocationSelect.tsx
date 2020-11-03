@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import CustomDropdown from "./dropdowns/CustomDropdown";
 
 import { useAppDispatch } from "../app/store";
-import { replaceSlashAndUnderscore } from "../utils/string.utils";
+import { generateSelectOptions, valueToCustomDropdownValue } from "../utils";
 import {
     selectedAreaSelector,
     selectedLocationSelector,
@@ -15,22 +15,6 @@ import {
 import styles from "./LocationSelect.module.scss";
 
 type Props = {};
-
-const valueToCustomDropdownValue = (value: string): CustomDropdownValue => {
-    const dropdownValue = { label: replaceSlashAndUnderscore(value), value };
-    return dropdownValue;
-};
-
-const generateSelectOptions = (values: string[]): CustomDropdownValue[] => {
-    const options = values.map((option) => {
-        return {
-            label: replaceSlashAndUnderscore(option),
-            value: option,
-        };
-    });
-
-    return options;
-};
 
 const LocationSelect = (props: Props) => {
     const appDispatch = useAppDispatch();
