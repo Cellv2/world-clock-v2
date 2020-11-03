@@ -3,8 +3,8 @@ import { useSelector } from "react-redux";
 
 import CustomDropdown from "./dropdowns/CustomDropdown";
 
-import { generateSelectOptions, valueToCustomDropdownValue } from "../utils";
 import { useAppDispatch } from "../app/store";
+import { generateSelectOptions, valueToCustomDropdownValue } from "../utils";
 import {
     selectedAreaSelector,
     selectedLocationSelector,

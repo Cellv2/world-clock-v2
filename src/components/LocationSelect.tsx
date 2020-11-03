@@ -60,7 +60,6 @@ const LocationSelect = (props: Props) => {
         );
     }
 
-    // it should never reach here, but we need a default return
     return (
         <div className={styles.notAvailable}>
             No locations available for the selected area
@@ -69,51 +68,3 @@ const LocationSelect = (props: Props) => {
 };
 
 export default LocationSelect;
-// type Props = {
-//     regions: string[] | WorldTimeApiResponseSchema;
-//     selectedRegion: string | null;
-//     handleRegionOnChange: (event: ValueType<{value: string, label: string}>) => void;
-// };
-
-// const RegionSelect = (props: Props) => {
-//     const { regions, selectedRegion } = props;
-
-//     if (Array.isArray(regions)) {
-//         const selectOptions = regions.map((region) => {
-//             return {
-//                 label: replaceSlashAndUnderscore(region),
-//                 value: region,
-//             };
-//         });
-//         const selectedRegionValue =
-//             selectedRegion !== null
-//                 ? {
-//                       label: replaceSlashAndUnderscore(selectedRegion),
-//                       value: selectedRegion,
-//                   }
-//                 : null;
-
-//         return (
-//             <>
-//                 <CustomDropdown
-//                     options={selectOptions}
-//                     handleOnChange={props.handleRegionOnChange}
-//                     value={selectedRegionValue}
-//                     name="Region:"
-//                     label="Region:"
-//                 />
-//                 {!selectedRegion && (
-//                     <>
-//                         <div className={styles.notAvailable}>
-//                             Please select a region
-//                         </div>
-//                     </>
-//                 )}
-//             </>
-//         );
-//     }
-
-//     return <div className={styles.notAvailable}>No regions available for the selected area</div>;
-// };
-
-// export default RegionSelect;
