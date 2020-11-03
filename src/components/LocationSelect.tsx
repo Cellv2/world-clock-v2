@@ -24,6 +24,7 @@ const LocationSelect = (props: Props) => {
     const locations =
         selectedArea !== null ? Object.keys(timezoneObj[selectedArea]) : null;
 
+    // if it's a string, there must not be any locations (else it would be an object)
     if (selectedArea && typeof timezoneObj[selectedArea] === "string") {
         return (
             <div className={styles.notAvailable}>
