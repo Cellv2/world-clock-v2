@@ -23,10 +23,11 @@ const RegionSelect = (props: Props) => {
     const selectedLocation = useSelector(selectedLocationSelector);
     const selectedRegion = useSelector(selectedRegionSelector);
     const timezoneObj = useSelector(timezoneObjSelector);
-    const regions = (selectedArea !== null && selectedLocation !== null
-        ? // @ts-expect-error - https://github.com/microsoft/TypeScript/issues/21760
-          Object.keys(timezoneObj[selectedArea][selectedLocation])
-        : null) as string[] | null;
+    const regions =
+        selectedArea !== null && selectedLocation !== null
+            ? // @ts-expect-error - https://github.com/microsoft/TypeScript/issues/21760
+              Object.keys(timezoneObj[selectedArea][selectedLocation])
+            : null;
 
     // if it's a string, there must not be any regions (else it would be an object)
     if (
