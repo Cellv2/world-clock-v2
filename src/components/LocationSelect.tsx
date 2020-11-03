@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import CustomDropdown from "./dropdowns/CustomDropdown";
 
 import { useAppDispatch } from "../app/store";
-import { replaceSlashAndUnderscore } from "../helpers/utils";
+import { replaceSlashAndUnderscore } from "../utils/string.utils";
 import {
     selectedAreaSelector,
     selectedLocationSelector,

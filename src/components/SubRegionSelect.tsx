@@ -3,7 +3,7 @@ import { ValueType } from "react-select";
 
 import CustomDropdown from './dropdowns/CustomDropdown'
 
-import { replaceSlashAndUnderscore } from "../helpers/utils";
+import { replaceSlashAndUnderscore } from "../utils/string.utils";
 
 import styles from "./SubRegionSelect.module.scss";
 

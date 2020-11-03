@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { WorldTimeApiResponseSchema } from "../models/world-time-api/time.model";
-import { replaceSlashAndUnderscore } from "../helpers/utils";
+import { replaceSlashAndUnderscore } from "../utils/string.utils";
 
 import styles from './ClockFace.module.scss'
 
