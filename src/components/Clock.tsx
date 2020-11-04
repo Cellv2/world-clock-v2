@@ -50,6 +50,27 @@ const Clock = (props: Props) => {
     );
 };
 
+//Type 'string | Record<string, string | Record<string, string | Record<string, string>>>' is not assignable to 
+//type 'string | Record<string, string | Record<string, string>>'.
+
+
+
+function setValue(object:Area, path: string, value: string) {
+    path = path.replace(/[\[]/gm, '/').replace(/[\]]/gm, ''); //to accept [index]
+    const keys = path.split('/');
+    const last = keys.pop();
+
+    //@ts-expect-error
+    keys.reduce(function (o, k) { return o[k] = o[k] || {}; }, object)[last] = value;
+}
+
+var data = {};
+
+setValue(data, 'location/degree/text', 'sometexthere');
+setValue(data, "location/degree/qwe", "myvalue")
+console.log(data);
+
+
 const gen = (input: string[]) => {
     // check whether there is a child
     // if no, add to object
