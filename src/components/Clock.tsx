@@ -15,21 +15,6 @@ import {
 
 type Props = {};
 
-type Area = Record<string, string | Location>;
-type Location = Record<string, string | Region>;
-type Region = Record<string, string>;
-
-const x: Area = {
-    America: {
-        Adak: "Adak",
-        Anchorage: "Anchorage",
-        Argentina: {
-            Catamarca: "Catamarca",
-        },
-    },
-    CET: "CET",
-};
-
 const Clock = (props: Props) => {
     const dispatch = useDispatch();
     const selectedArea = useSelector(selectedAreaSelector);
@@ -50,10 +35,40 @@ const Clock = (props: Props) => {
     );
 };
 
+
+//do we want infinite recursion? Probably not?
+type TimezoneJson = string | { [key: string]: TimezoneJson };
+const timezoneJson: TimezoneJson = {
+    America: {
+        Adak: "Adak",
+        Anchorage: "Anchorage",
+        Argentina: {
+            Catamarca: "Catamarca",
+        },
+    },
+    CET: "CET",
+};
+
+
+type Area = Record<string, string | Location>;
+type Location = Record<string, string | Region>;
+type Region = Record<string, string>;
+
+const tzObj: Area = {
+    America: {
+        Adak: "Adak",
+        Anchorage: "Anchorage",
+        Argentina: {
+            Catamarca: "Catamarca",
+        },
+    },
+    CET: "CET",
+};
+
+
+
 //Type 'string | Record<string, string | Record<string, string | Record<string, string>>>' is not assignable to 
 //type 'string | Record<string, string | Record<string, string>>'.
-
-
 
 function setValue(object:Area, path: string, value: string) {
     path = path.replace(/[\[]/gm, '/').replace(/[\]]/gm, ''); //to accept [index]
