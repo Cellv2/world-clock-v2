@@ -31,7 +31,7 @@ const Clock = (props: Props) => {
         console.log(timezoneObjGenerator(data));
     };
 
-    x()
+    x();
 
     return (
         <>
@@ -68,23 +68,20 @@ const tzObj: Area = {
 const timezoneObjGenerator = (data: string[]) => {
     const dataObj = {} as Area;
     data.forEach((item) => {
-        const val = item.split("/").pop();
-        if (val) {
-            setValue(dataObj, item, val);
-        }
+        setValue(dataObj, item);
     });
 
     return dataObj;
 };
 
-const setValue = (object: Area, path: string, value: string) => {
+const setValue = (object: Area, path: string) => {
     const keys = path.split("/");
-    const last = keys.pop();
+    const value = keys.pop();
 
-    if (last) {
+    if (value) {
         keys.reduce((acc, key) => {
             return (acc[key] = acc[key] || {});
-        }, object as any)[last] = value;
+        }, object as any)[value] = value;
     }
 };
 
