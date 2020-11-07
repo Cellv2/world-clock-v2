@@ -1,13 +1,13 @@
-export const timezoneObjGenerator = (data: string[]) => {
+export const generateTimezoneObject = (data: string[]) => {
     const dataObj = {} as Areas;
     data.forEach((item) => {
-        setValue(dataObj, item);
+        setObjectValueByPath(dataObj, item);
     });
 
     return dataObj;
 };
 
-const setValue = (object: Areas, path: string) => {
+const setObjectValueByPath = (object: Areas, path: string) => {
     const keys = path.split("/");
     const value = keys.pop();
 

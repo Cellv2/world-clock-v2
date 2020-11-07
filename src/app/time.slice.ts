@@ -3,6 +3,7 @@ import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { WorldTimeApiService } from "../services/world-time-api/world-time-api.service";
 import { WorldTimeApiResponseSchema } from "../models/world-time-api/time.model";
 import { RootState } from "./store";
+import { generateTimezoneObject } from "../utils";
 
 type TimeState = {
     isLoading: boolean;
@@ -89,7 +90,7 @@ export const timeState = createSlice({
                 state.isLoading = true;
             })
             .addCase(fetchAllTimezones.fulfilled, (state, { payload }) => {
-                state.timezones = timezoneObjGenerator(payload);
+                state.timezones = generateTimezoneObject(payload);
                 state.isLoading = false;
             })
             .addCase(getCurrentTimeInTimezone.pending, (state, action) => {
@@ -105,26 +106,6 @@ export const timeState = createSlice({
         // TODO: add rejection cases
     },
 });
-
-const timezoneObjGenerator = (data: string[]) => {
-    const dataObj = {} as Areas;
-    data.forEach((item) => {
-        setValue(dataObj, item);
-    });
-
-    return dataObj;
-};
-
-const setValue = (object: Areas, path: string) => {
-    const keys = path.split("/");
-    const value = keys.pop();
-
-    if (value) {
-        keys.reduce((acc, key) => {
-            return (acc[key] = acc[key] || {});
-        }, object as any)[value] = value;
-    }
-};
 
 export const {
     setSelectedArea,
