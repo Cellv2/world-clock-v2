@@ -25,6 +25,14 @@ const Clock = (props: Props) => {
         // dispatch(getCurrentTimeInTimezone());
     }, [dispatch]);
 
+    const x = async () => {
+        const call = await fetch("https://worldtimeapi.org/api/timezone");
+        const data = await call.json();
+        console.log(timezoneObjGenerator(data));
+    };
+
+    x()
+
     return (
         <>
             <p>Testing</p>
@@ -35,24 +43,16 @@ const Clock = (props: Props) => {
     );
 };
 
-
-//do we want infinite recursion? Probably not?
-type TimezoneJson = string | { [key: string]: TimezoneJson };
-const timezoneJson: TimezoneJson = {
-    America: {
-        Adak: "Adak",
-        Anchorage: "Anchorage",
-        Argentina: {
-            Catamarca: "Catamarca",
-        },
-    },
-    CET: "CET",
-};
-
-
 type Area = Record<string, string | Location>;
 type Location = Record<string, string | Region>;
 type Region = Record<string, string>;
+
+const testData = [
+    "CET",
+    "America/Adak",
+    "America/Anchorage",
+    "America/Argentina/Catamarca",
+];
 
 const tzObj: Area = {
     America: {
@@ -65,67 +65,27 @@ const tzObj: Area = {
     CET: "CET",
 };
 
+const timezoneObjGenerator = (data: string[]) => {
+    const dataObj = {} as Area;
+    data.forEach((item) => {
+        const val = item.split("/").pop();
+        if (val) {
+            setValue(dataObj, item, val);
+        }
+    });
 
+    return dataObj;
+};
 
-//Type 'string | Record<string, string | Record<string, string | Record<string, string>>>' is not assignable to 
-//type 'string | Record<string, string | Record<string, string>>'.
-
-function setValue(object:Area, path: string, value: string) {
-    path = path.replace(/[\[]/gm, '/').replace(/[\]]/gm, ''); //to accept [index]
-    const keys = path.split('/');
+const setValue = (object: Area, path: string, value: string) => {
+    const keys = path.split("/");
     const last = keys.pop();
 
-    //@ts-expect-error
-    keys.reduce(function (o, k) { return o[k] = o[k] || {}; }, object)[last] = value;
-}
-
-var data = {};
-
-setValue(data, 'location/degree/text', 'sometexthere');
-setValue(data, "location/degree/qwe", "myvalue")
-console.log(data);
-
-
-const gen = (input: string[]) => {
-    // check whether there is a child
-    // if no, add to object
-    // if yes, create key and add an object
-    let obj = {} as Area;
-    // input.forEach(item => {
-    //     const split = item.split("/");
-    //     const key = split[0];
-    //     if (split.length === 1) {
-    //         obj[key] = key
-    //     } else {
-    //         const popped = split.slice(1, split.length);
-    //         obj[key] = gen(popped)
-    //     }
-    // })
-
-    // /timezone/{area}/{location}/{region}
-    const timezonesObj = input.reduce((acc, item) => {
-        const timezone = item.split("/");
-        const area = timezone[0]; //this should always exists
-        if (timezone.length === 1) {
-            acc[area] = area;
-        } else if (timezone.length === 2) {
-            const location = timezone[1];
-            acc[area] = {
-                location,
-            };
-        } else if (timezone.length === 3) {
-            const location = timezone[1];
-            const region = timezone[2];
-            acc[area] = {
-                location: {
-                    region,
-                },
-            };
-        }
-        return acc;
-    }, {} as Area);
-
-    return timezonesObj;
+    if (last) {
+        keys.reduce((acc, key) => {
+            return (acc[key] = acc[key] || {});
+        }, object as any)[last] = value;
+    }
 };
 
 export default Clock;
