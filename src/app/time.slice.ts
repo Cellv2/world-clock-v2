@@ -10,7 +10,8 @@ type Region = Record<string, string>; //! index typing may fail - https://github
 
 type TimeState = {
     isLoading: boolean;
-    timezones: string[];
+    // timezones: string[];
+    timezones: Area;
     selectedArea: string | null;
     selectedLocation: string | null;
     selectedRegion: string | null;
@@ -20,7 +21,7 @@ type TimeState = {
 
 const initialState: TimeState = {
     isLoading: true,
-    timezones: [],
+    timezones: {},
     selectedArea: null,
     selectedLocation: null,
     selectedRegion: null,
@@ -74,9 +75,9 @@ export const timeState = createSlice({
     name: "time",
     initialState,
     reducers: {
-        setTimezones: (state, action: PayloadAction<string[]>) => {
-            state.timezones = action.payload;
-        },
+        // setTimezones: (state, action: PayloadAction<string[]>) => {
+        //     state.timezones = action.payload;
+        // },
         setSelectedArea: (state, action: PayloadAction<string>) => {
             state.selectedArea = action.payload;
             state.selectedLocation = null;
@@ -96,7 +97,7 @@ export const timeState = createSlice({
                 state.isLoading = true;
             })
             .addCase(fetchAllTimezones.fulfilled, (state, { payload }) => {
-                state.timezones = payload;
+                state.timezones = timezoneObjGenerator(payload);
                 state.isLoading = false;
             })
             .addCase(getCurrentTimeInTimezone.pending, (state, action) => {
@@ -112,6 +113,29 @@ export const timeState = createSlice({
         // TODO: add rejection cases
     },
 });
+
+
+const timezoneObjGenerator = (data: string[]) => {
+    const dataObj = {} as Area;
+    data.forEach((item) => {
+        setValue(dataObj, item);
+    });
+
+    return dataObj;
+};
+
+const setValue = (object: Area, path: string) => {
+    const keys = path.split("/");
+    const value = keys.pop();
+
+    if (value) {
+        keys.reduce((acc, key) => {
+            return (acc[key] = acc[key] || {});
+        }, object as any)[value] = value;
+    }
+};
+
+
 
 export const {
     setSelectedArea,
