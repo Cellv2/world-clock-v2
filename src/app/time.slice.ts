@@ -6,7 +6,6 @@ import { RootState } from "./store";
 
 type TimeState = {
     isLoading: boolean;
-    // timezones: string[];
     timezones: Areas;
     selectedArea: string | null;
     selectedLocation: string | null;
@@ -71,9 +70,6 @@ export const timeState = createSlice({
     name: "time",
     initialState,
     reducers: {
-        // setTimezones: (state, action: PayloadAction<string[]>) => {
-        //     state.timezones = action.payload;
-        // },
         setSelectedArea: (state, action: PayloadAction<string>) => {
             state.selectedArea = action.payload;
             state.selectedLocation = null;

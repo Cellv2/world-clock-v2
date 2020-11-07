@@ -21,17 +21,9 @@ const Clock = (props: Props) => {
     const selectedLocation = useSelector(selectedLocationSelector);
 
     useEffect(() => {
-        // dispatch(fetchAllTimezones());
+        dispatch(fetchAllTimezones());
         // dispatch(getCurrentTimeInTimezone());
     }, [dispatch]);
-
-    const x = async () => {
-        const call = await fetch("https://worldtimeapi.org/api/timezone");
-        const data = await call.json();
-        console.log(timezoneObjGenerator(data));
-    };
-
-    x();
 
     return (
         <>
@@ -41,48 +33,6 @@ const Clock = (props: Props) => {
             {selectedArea && selectedLocation && <RegionSelect />}
         </>
     );
-};
-
-type Area = Record<string, string | Location>;
-type Location = Record<string, string | Region>;
-type Region = Record<string, string>;
-
-const testData = [
-    "CET",
-    "America/Adak",
-    "America/Anchorage",
-    "America/Argentina/Catamarca",
-];
-
-const tzObj: Area = {
-    America: {
-        Adak: "Adak",
-        Anchorage: "Anchorage",
-        Argentina: {
-            Catamarca: "Catamarca",
-        },
-    },
-    CET: "CET",
-};
-
-const timezoneObjGenerator = (data: string[]) => {
-    const dataObj = {} as Area;
-    data.forEach((item) => {
-        setValue(dataObj, item);
-    });
-
-    return dataObj;
-};
-
-const setValue = (object: Area, path: string) => {
-    const keys = path.split("/");
-    const value = keys.pop();
-
-    if (value) {
-        keys.reduce((acc, key) => {
-            return (acc[key] = acc[key] || {});
-        }, object as any)[value] = value;
-    }
 };
 
 export default Clock;
