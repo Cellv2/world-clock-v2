@@ -4,19 +4,15 @@ import { WorldTimeApiService } from "../services/world-time-api/world-time-api.s
 import { WorldTimeApiResponseSchema } from "../models/world-time-api/time.model";
 import { RootState } from "./store";
 
-type Area = Record<string, string | Location>;
-type Location = Record<string, string | Region>;
-type Region = Record<string, string>; //! index typing may fail - https://github.com/microsoft/TypeScript/issues/21760
-
 type TimeState = {
     isLoading: boolean;
     // timezones: string[];
-    timezones: Area;
+    timezones: Areas;
     selectedArea: string | null;
     selectedLocation: string | null;
     selectedRegion: string | null;
     currentTimeResponse: WorldTimeApiResponseSchema | null;
-    timezoneObj: Area;
+    testTimezoneData: object;
 };
 
 const initialState: TimeState = {
@@ -26,7 +22,7 @@ const initialState: TimeState = {
     selectedLocation: null,
     selectedRegion: null,
     currentTimeResponse: null,
-    timezoneObj: {
+    testTimezoneData: {
         America: {
             Adak: "America/Adak",
             Anchorage: "America/Anchorage",
@@ -114,9 +110,8 @@ export const timeState = createSlice({
     },
 });
 
-
 const timezoneObjGenerator = (data: string[]) => {
-    const dataObj = {} as Area;
+    const dataObj = {} as Areas;
     data.forEach((item) => {
         setValue(dataObj, item);
     });
@@ -124,7 +119,7 @@ const timezoneObjGenerator = (data: string[]) => {
     return dataObj;
 };
 
-const setValue = (object: Area, path: string) => {
+const setValue = (object: Areas, path: string) => {
     const keys = path.split("/");
     const value = keys.pop();
 
@@ -134,8 +129,6 @@ const setValue = (object: Area, path: string) => {
         }, object as any)[value] = value;
     }
 };
-
-
 
 export const {
     setSelectedArea,
@@ -149,6 +142,6 @@ export const selectedLocationSelector = (state: RootState) =>
     state.time.selectedLocation;
 export const selectedRegionSelector = (state: RootState) =>
     state.time.selectedRegion;
-export const timezoneObjSelector = (state: RootState) => state.time.timezoneObj;
+export const timezonesSelector = (state: RootState) => state.time.timezones;
 
 export default timeState.reducer;

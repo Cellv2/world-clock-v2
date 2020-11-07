@@ -8,7 +8,7 @@ import { generateSelectOptions, valueToCustomDropdownValue } from "../utils";
 import {
     selectedAreaSelector,
     selectedLocationSelector,
-    timezoneObjSelector,
+    timezonesSelector,
     setSelectedLocation,
 } from "../app/time.slice";
 
@@ -20,12 +20,12 @@ const LocationSelect = (props: Props) => {
     const appDispatch = useAppDispatch();
     const selectedArea = useSelector(selectedAreaSelector);
     const selectedLocation = useSelector(selectedLocationSelector);
-    const timezoneObj = useSelector(timezoneObjSelector);
+    const timezones = useSelector(timezonesSelector);
     const locations =
-        selectedArea !== null ? Object.keys(timezoneObj[selectedArea]) : null;
+        selectedArea !== null ? Object.keys(timezones[selectedArea]) : null;
 
     // if it's a string, there must not be any locations (else it would be an object)
-    if (selectedArea && typeof timezoneObj[selectedArea] === "string") {
+    if (selectedArea && typeof timezones[selectedArea] === "string") {
         return (
             <div className={styles.notAvailable}>
                 No locations available for the selected area

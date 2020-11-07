@@ -4,6 +4,6 @@ enum WorldTimeApiEndpoints {
     IP = "api/ip",
 }
 
-type Area = Record<string, string | Location>;
-type Location = Record<string, string | Region>;
-type Region = Record<string, string>;
+type Areas = Record<string, string | Locations>;
+type Locations = Record<string, string | Regions>;
+type Regions = Record<string, string>; //! index typing may fail - https://github.com/microsoft/TypeScript/issues/21760

@@ -1,5 +1,5 @@
 export const timezoneObjGenerator = (data: string[]) => {
-    const dataObj = {} as Area;
+    const dataObj = {} as Areas;
     data.forEach((item) => {
         setValue(dataObj, item);
     });
@@ -7,7 +7,7 @@ export const timezoneObjGenerator = (data: string[]) => {
     return dataObj;
 };
 
-const setValue = (object: Area, path: string) => {
+const setValue = (object: Areas, path: string) => {
     const keys = path.split("/");
     const value = keys.pop();
 

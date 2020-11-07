@@ -10,7 +10,7 @@ import {
     selectedLocationSelector,
     selectedRegionSelector,
     setSelectedRegion,
-    timezoneObjSelector,
+    timezonesSelector,
 } from "../app/time.slice";
 
 import styles from "./RegionSelect.module.scss";
@@ -22,11 +22,11 @@ const RegionSelect = (props: Props) => {
     const selectedArea = useSelector(selectedAreaSelector);
     const selectedLocation = useSelector(selectedLocationSelector);
     const selectedRegion = useSelector(selectedRegionSelector);
-    const timezoneObj = useSelector(timezoneObjSelector);
+    const timezones = useSelector(timezonesSelector);
     const regions =
         selectedArea !== null && selectedLocation !== null
             ? // @ts-expect-error - https://github.com/microsoft/TypeScript/issues/21760
-              Object.keys(timezoneObj[selectedArea][selectedLocation])
+              Object.keys(timezones[selectedArea][selectedLocation])
             : null;
 
     // if it's a string, there must not be any regions (else it would be an object)
@@ -34,7 +34,7 @@ const RegionSelect = (props: Props) => {
         selectedArea &&
         selectedLocation &&
         // @ts-expect-error - https://github.com/microsoft/TypeScript/issues/21760
-        typeof timezoneObj[selectedArea][selectedLocation] === "string"
+        typeof timezones[selectedArea][selectedLocation] === "string"
     ) {
         return (
             <div className={styles.notAvailable}>

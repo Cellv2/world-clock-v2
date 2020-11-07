@@ -8,7 +8,7 @@ import { generateSelectOptions, valueToCustomDropdownValue } from "../utils";
 import {
     selectedAreaSelector,
     setSelectedArea,
-    timezoneObjSelector,
+    timezonesSelector,
 } from "../app/time.slice";
 
 import styles from "./AreaSelect.module.scss";
@@ -18,8 +18,8 @@ type Props = {};
 const AreaSelect = (props: Props) => {
     const appDispatch = useAppDispatch();
     const selectedArea = useSelector(selectedAreaSelector);
-    const timezoneObj = useSelector(timezoneObjSelector);
-    const areas = Object.keys(timezoneObj);
+    const timezones = useSelector(timezonesSelector);
+    const areas = Object.keys(timezones);
 
     if (areas.length > 0) {
         return (
