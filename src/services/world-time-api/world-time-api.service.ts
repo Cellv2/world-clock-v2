@@ -10,16 +10,15 @@ export interface WorldTimeApiServiceConstructor {
 export interface WorldTimeApiService {
     getAllTimezones: () => Promise<string[]>;
     getCurrentTime: (
-        area?: string,
-        location?: string,
-        region?: string
+        area: string | null,
+        location: string | null,
+        region: string | null
     ) => Promise<WorldTimeApiResponseSchema>;
 }
 
 // https://www.typescriptlang.org/docs/handbook/interfaces.html#difference-between-the-static-and-instance-sides-of-classes
 export const WorldTimeApiService: WorldTimeApiServiceConstructor = class WorldTimeApiService
     implements WorldTimeApiService {
-        
     // get available timezones
     async getAllTimezones() {
         const request = await fetch("https://worldtimeapi.org/api/timezone");
@@ -27,7 +26,11 @@ export const WorldTimeApiService: WorldTimeApiServiceConstructor = class WorldTi
     }
 
     // /timezone/{area}/{location}/{region}
-    async getCurrentTime(area?: string, location?: string, region?: string) {
+    async getCurrentTime(
+        area: string | null,
+        location: string | null,
+        region: string | null
+    ) {
         const timezone = [area, location, region].filter(Boolean).join("/");
         const endpoint = Boolean(timezone) ? `timezone/${timezone}` : `ip`;
 

@@ -2,7 +2,7 @@ import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 
 import { WorldTimeApiService } from "../services/world-time-api/world-time-api.service";
 import { WorldTimeApiResponseSchema } from "../models/world-time-api/time.model";
-import { RootState } from "./store";
+import { AppDispatch, RootState } from "./store";
 import { generateTimezoneObject } from "../utils";
 
 type TimeState = {
@@ -58,13 +58,25 @@ export const getCurrentTimeInTimezone = createAsyncThunk<
     WorldTimeApiResponseSchema,
     void,
     {
+        dispatch: AppDispatch;
+        state: RootState;
         extra: {
             worldTimeApiService: typeof WorldTimeApiService;
         };
     }
 >("time/getCurrentTimeInTimezone", async (_, thunkAPI) => {
     const service = new thunkAPI.extra.worldTimeApiService();
-    return await service.getCurrentTime();
+    const {
+        selectedArea,
+        selectedLocation,
+        selectedRegion,
+    } = thunkAPI.getState().time;
+
+    return await service.getCurrentTime(
+        selectedArea,
+        selectedLocation,
+        selectedRegion
+    );
 });
 
 export const timeState = createSlice({
