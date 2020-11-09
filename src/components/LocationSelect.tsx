@@ -10,6 +10,7 @@ import {
     selectedLocationSelector,
     timezonesSelector,
     setSelectedLocation,
+    getCurrentTimeInTimezone,
 } from "../app/time.slice";
 
 import styles from "./LocationSelect.module.scss";
@@ -33,14 +34,24 @@ const LocationSelect = (props: Props) => {
         );
     }
 
+    const handleOnChange = (event: CustomDropdownValue) => {
+        appDispatch(setSelectedLocation(event.value));
+
+        if (
+            selectedArea &&
+            // @ts-expect-error - https://github.com/microsoft/TypeScript/issues/21760
+            typeof timezones[selectedArea][event.value] === "string"
+        ) {
+            appDispatch(getCurrentTimeInTimezone());
+        }
+    };
+
     if (Array.isArray(locations)) {
         return (
             <>
                 <CustomDropdown
                     options={generateSelectOptions(locations)}
-                    handleOnChange={(e) =>
-                        appDispatch(setSelectedLocation(e.value))
-                    }
+                    handleOnChange={(e) => handleOnChange(e)}
                     value={
                         selectedLocation !== null
                             ? valueToCustomDropdownValue(selectedLocation)
