@@ -120,5 +120,7 @@ export const selectedLocationSelector = (state: RootState) =>
 export const selectedRegionSelector = (state: RootState) =>
     state.time.selectedRegion;
 export const timezonesSelector = (state: RootState) => state.time.timezones;
+export const currentTimeResponseSelector = (state: RootState) =>
+    state.time.currentTimeResponse;
 
 export default timeState.reducer;

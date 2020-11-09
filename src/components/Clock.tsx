@@ -22,12 +22,12 @@ const Clock = (props: Props) => {
 
     useEffect(() => {
         dispatch(fetchAllTimezones());
-        // dispatch(getCurrentTimeInTimezone());
+        dispatch(getCurrentTimeInTimezone());
     }, [dispatch]);
 
     return (
         <>
-            <p>Testing</p>
+            <ClockFace />
             <AreaSelect />
             {selectedArea && <LocationSelect />}
             {selectedArea && selectedLocation && <RegionSelect />}
