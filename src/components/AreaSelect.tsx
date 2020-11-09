@@ -6,6 +6,7 @@ import CustomDropdown from "./dropdowns/CustomDropdown";
 import { useAppDispatch } from "../app/store";
 import { generateSelectOptions, valueToCustomDropdownValue } from "../utils";
 import {
+    getCurrentTimeInTimezone,
     selectedAreaSelector,
     setSelectedArea,
     timezonesSelector,
@@ -21,14 +22,20 @@ const AreaSelect = (props: Props) => {
     const timezones = useSelector(timezonesSelector);
     const areas = Object.keys(timezones);
 
+    const handleOnChange = (event: CustomDropdownValue) => {
+        appDispatch(setSelectedArea(event.value));
+
+        if (typeof timezones[event.value] === "string") {
+            appDispatch(getCurrentTimeInTimezone());
+        }
+    };
+
     if (areas.length > 0) {
         return (
             <>
                 <CustomDropdown
                     options={generateSelectOptions(areas)}
-                    handleOnChange={(e) => {
-                        appDispatch(setSelectedArea(e.value));
-                    }}
+                    handleOnChange={(e) => handleOnChange(e)}
                     value={
                         selectedArea
                             ? valueToCustomDropdownValue(selectedArea)
