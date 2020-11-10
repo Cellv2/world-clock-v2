@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 import {
@@ -22,6 +22,18 @@ type State = {
 const ClockFace = (props: Props) => {
     const currentTimeResponse = useSelector(currentTimeResponseSelector);
     const selectedArea = useSelector(selectedAreaSelector);
+    const [seconds, setSeconds] = useState(0);
+
+    const handleSecondsTick = useCallback(() => {
+        console.log(seconds);
+        const newSecs = seconds + 1;
+        setSeconds(newSecs);
+    }, [seconds]);
+
+    useEffect(() => {
+        const interval = setInterval(handleSecondsTick, 1000);
+        return () => clearInterval(interval);
+    }, [handleSecondsTick]);
 
     if (currentTimeResponse === null) {
         return <div>Fetching time...</div>;
