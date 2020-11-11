@@ -1,6 +1,7 @@
 import React, { Component, useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
+import timeManager from '../app/time-manager'
 import {
     currentTimeResponseSelector,
     selectedAreaSelector,
@@ -24,16 +25,25 @@ const ClockFace = (props: Props) => {
     const selectedArea = useSelector(selectedAreaSelector);
     const [seconds, setSeconds] = useState(0);
 
-    const handleSecondsTick = useCallback(() => {
-        console.log(seconds);
-        const newSecs = seconds + 1;
-        setSeconds(newSecs);
-    }, [seconds]);
+    // const handleSecondsTick = useCallback(() => {
+    //     // console.log(seconds);
+    //     // const newSecs = seconds + 1;
+    //     // setSeconds(newSecs);
+    //     // console.log(timeManager.getElapsedTime())
+    //     timeManager.getElapsedTime()
+
+    // // }, [seconds]);
+    // }, []);
+
+    // useEffect(() => {
+    //     const interval = setInterval(handleSecondsTick, 1000);
+    //     return () => clearInterval(interval);
+    // }, [handleSecondsTick]);
 
     useEffect(() => {
-        const interval = setInterval(handleSecondsTick, 1000);
-        return () => clearInterval(interval);
-    }, [handleSecondsTick]);
+        timeManager.startNewInterval();
+        return timeManager.clearManagerInterval();
+    }, [])
 
     if (currentTimeResponse === null) {
         return <div>Fetching time...</div>;
