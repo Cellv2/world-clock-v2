@@ -26,6 +26,10 @@ const ClockFace = (props: Props) => {
 
     useEffect(() => {
         timeManager.startNewInterval();
+        // we reset the locally used seconds to avoid the time 'skipping'
+        // the skipping would happen because the local seconds variable only updates every 1 second...
+        // ...and would keep the previous number of elapsed seconds until the next interval
+        setSeconds(0)
     }, [currentTimeResponse]);
 
     if (currentTimeResponse === null) {
