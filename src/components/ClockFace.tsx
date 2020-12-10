@@ -42,8 +42,8 @@ const ClockFace = (props: Props) => {
 
     useEffect(() => {
         timeManager.startNewInterval();
-        return timeManager.clearManagerInterval();
-    }, [])
+        // return timeManager.clearManagerInterval();
+    }, [currentTimeResponse])
 
     if (currentTimeResponse === null) {
         return <div>Fetching time...</div>;

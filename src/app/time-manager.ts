@@ -4,7 +4,6 @@ class TimeManager {
 
     private tick = () => {
         this.elapsedTime++;
-        console.log("tick", this.elapsedTime)
     };
 
     getElapsedTime = () => {
@@ -12,21 +11,18 @@ class TimeManager {
     };
 
     startNewInterval = () => {
-        // if (this.interval) {
-        //     this.clearManagerInterval();
-        // }
-        console.log(timeManagerInstance)
-        setInterval(this.tick, 1000);
-        // const interval = setInterval(() => this.tick, 1000);
-        // this.interval = interval
+        this.clearManagerInterval();
+
+        const interval = setInterval(() => this.tick(), 1000);
+        this.interval = interval;
     };
 
-    clearManagerInterval = () => {
-        console.log("clearIntervals called");
+    clearManagerInterval() {
         if (this.interval) {
             clearInterval(this.interval);
+            this.elapsedTime = 0;
         }
-    };
+    }
 }
 
 const timeManagerInstance = new TimeManager();
