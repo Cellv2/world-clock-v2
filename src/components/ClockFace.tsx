@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 import timeManager from "../app/time-manager";
@@ -20,6 +20,14 @@ type State = {
 const ClockFace = (props: Props) => {
     const currentTimeResponse = useSelector(currentTimeResponseSelector);
     const selectedArea = useSelector(selectedAreaSelector);
+    const [seconds, setSeconds] = useState<number>(0);
+
+    useEffect(() => {
+        const _interval = setInterval(() => {
+            setSeconds(timeManager.getElapsedTime());
+        }, 1000);
+        return () => clearInterval(_interval);
+    }, []);
 
     useEffect(() => {
         timeManager.startNewInterval();
@@ -31,7 +39,7 @@ const ClockFace = (props: Props) => {
 
     const { unixtime, raw_offset, dst_offset, dst } = currentTimeResponse;
 
-    const adjustedTime: number = unixtime + raw_offset;
+    const adjustedTime: number = unixtime + raw_offset + seconds;
 
     const date: Date = new Date(adjustedTime * 1000);
     const hours = "0" + date.getHours();
