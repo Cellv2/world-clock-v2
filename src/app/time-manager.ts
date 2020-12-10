@@ -6,6 +6,13 @@ class TimeManager {
         this.elapsedTime++;
     };
 
+    private clearManagerInterval = () => {
+        if (this.interval) {
+            clearInterval(this.interval);
+            this.elapsedTime = 0;
+        }
+    };
+
     getElapsedTime = () => {
         return this.elapsedTime;
     };
@@ -16,13 +23,6 @@ class TimeManager {
         const interval = setInterval(() => this.tick(), 1000);
         this.interval = interval;
     };
-
-    clearManagerInterval() {
-        if (this.interval) {
-            clearInterval(this.interval);
-            this.elapsedTime = 0;
-        }
-    }
 }
 
 const timeManagerInstance = new TimeManager();
