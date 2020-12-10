@@ -1,7 +1,7 @@
-import React, { Component, useCallback, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 
-import timeManager from '../app/time-manager'
+import timeManager from "../app/time-manager";
 import {
     currentTimeResponseSelector,
     selectedAreaSelector,
@@ -11,10 +11,7 @@ import { replaceSlashAndUnderscore } from "../utils/string.utils";
 
 import styles from "./ClockFace.module.scss";
 
-type Props = {
-    // time: WorldTimeApiResponseSchema;
-    // usingIp: boolean;
-};
+type Props = {};
 
 type State = {
     time: WorldTimeApiResponseSchema;
@@ -23,27 +20,10 @@ type State = {
 const ClockFace = (props: Props) => {
     const currentTimeResponse = useSelector(currentTimeResponseSelector);
     const selectedArea = useSelector(selectedAreaSelector);
-    const [seconds, setSeconds] = useState(0);
-
-    // const handleSecondsTick = useCallback(() => {
-    //     // console.log(seconds);
-    //     // const newSecs = seconds + 1;
-    //     // setSeconds(newSecs);
-    //     // console.log(timeManager.getElapsedTime())
-    //     timeManager.getElapsedTime()
-
-    // // }, [seconds]);
-    // }, []);
-
-    // useEffect(() => {
-    //     const interval = setInterval(handleSecondsTick, 1000);
-    //     return () => clearInterval(interval);
-    // }, [handleSecondsTick]);
 
     useEffect(() => {
         timeManager.startNewInterval();
-        // return timeManager.clearManagerInterval();
-    }, [currentTimeResponse])
+    }, [currentTimeResponse]);
 
     if (currentTimeResponse === null) {
         return <div>Fetching time...</div>;
