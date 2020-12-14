@@ -21,9 +21,9 @@ jest.mock("./world-time-api.service", () => {
             });
         }
         async getCurrentTime(
-            area?: string,
-            location?: string,
-            region?: string
+            area: string | null,
+            location: string | null,
+            region: string | null
         ): Promise<WorldTimeApiResponseSchema> {
             const timezone = [area, location, region].filter(Boolean).join("/");
             const endpoint = Boolean(timezone) ? `timezone/${timezone}` : `ip`;
@@ -76,12 +76,6 @@ describe("services - world-time-api - getAllTimezones", () => {
         expect(spyGetAllTimezones).toHaveBeenCalled();
         expect(spyGetAllTimezones).toHaveBeenCalledTimes(1);
     });
-
-    xit("SHOULD BE TESTED!", () => {});
-    xit("should set _useIp to true on construction", () => {});
-    xit("should call the constructor", () => {});
-    xit("should return a string[] of timezones", () => {});
-    xit("should set _useIp to true on construction", () => {});
 });
 
 describe("services - world-time-api - getCurrentTime", () => {
