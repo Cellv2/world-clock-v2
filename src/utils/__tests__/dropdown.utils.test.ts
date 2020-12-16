@@ -23,7 +23,7 @@ describe("test valueToCustomDropdownValue", () => {
         ],
         [
             "Double__Underscores",
-            { label: "Double  Underscores", value: "Double__Underscores" },
+            { label: "Double Underscores", value: "Double__Underscores" },
         ],
     ])("%s", (val, expected) => {
         test(`returns ${expected}`, () => {

@@ -4,7 +4,7 @@
  * @param str String to run the replace on
  */
 export const replaceUnderscoreWithWhitespace = (str: string) => {
-    return str.replace(/_/g, " ");
+    return str.replace(/_+/g, " ");
 };
 
 /**
