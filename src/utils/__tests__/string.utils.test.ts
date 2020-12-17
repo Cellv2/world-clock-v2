@@ -8,6 +8,15 @@ describe("test replaceSlashAndUnderscore", () => {
 
 describe("test replaceSlashWithCommaWhitespace", () => {
     const fnToTest = mocked(stringUtils.replaceSlashWithCommaWhitespace, true);
+    describe.each([
+        ["/", ", "],
+        ["///", ", "],
+        ["aw/d@/\\/qQ/v_/úÍ/ü/aw", "aw, d@, \\, qQ, v_, úÍ, ü, aw"],
+    ])("%s", (val, expected) => {
+        it(`returns ${expected}`, () => {
+            expect(fnToTest(val)).toBe(expected);
+        });
+    });
 });
 
 describe("test replaceUnderscoreWithWhitespace", () => {
