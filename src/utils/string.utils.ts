@@ -8,12 +8,12 @@ export const replaceUnderscoreWithWhitespace = (str: string) => {
 };
 
 /**
- * Replaces all slashes with a comma followed by one space (", ")
+ * Replaces all forward slashes ("/") with a comma followed by one space (", ")
  *
  * @param str String to run the replace on
  */
 export const replaceSlashWithCommaWhitespace = (str: string) => {
-    return str.replace(/\//g, ", ");
+    return str.replace(/\/+/g, ", ");
 };
 
 /**
