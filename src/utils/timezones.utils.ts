@@ -7,6 +7,8 @@ export const generateTimezoneObject = (data: string[]) => {
     return dataObj;
 };
 
+//! As this is not exported, the test for this hard coded
+//! If this function is updated, please also update the implementation in the test
 const setObjectValueByPath = (object: Areas, path: string) => {
     const keys = path.split("/");
     const value = keys.pop();
