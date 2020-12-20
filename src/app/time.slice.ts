@@ -12,7 +12,6 @@ type TimeState = {
     selectedLocation: string | null;
     selectedRegion: string | null;
     currentTimeResponse: WorldTimeApiResponseSchema | null;
-    testTimezoneData: object;
     fetchAllTimezonesHasErrors: boolean;
     getCurrentTimeInTimezoneHasErrors: boolean;
 };
@@ -24,16 +23,6 @@ const initialState: TimeState = {
     selectedLocation: null,
     selectedRegion: null,
     currentTimeResponse: null,
-    testTimezoneData: {
-        America: {
-            Adak: "America/Adak",
-            Anchorage: "America/Anchorage",
-            Argentina: {
-                Catamarca: "America/Argentina/Catamarca",
-            },
-        },
-        CET: "CET",
-    },
     fetchAllTimezonesHasErrors: false,
     getCurrentTimeInTimezoneHasErrors: false,
 };
