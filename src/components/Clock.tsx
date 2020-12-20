@@ -12,6 +12,7 @@ import {
     selectedAreaSelector,
     selectedLocationSelector,
 } from "../app/time.slice";
+import { notificationsSelector } from "../app/notification.slice";
 
 type Props = {};
 
@@ -19,11 +20,16 @@ const Clock = (props: Props) => {
     const dispatch = useDispatch();
     const selectedArea = useSelector(selectedAreaSelector);
     const selectedLocation = useSelector(selectedLocationSelector);
+    const notifications = useSelector(notificationsSelector)
 
     useEffect(() => {
         dispatch(fetchAllTimezones());
         dispatch(getCurrentTimeInTimezone());
     }, [dispatch]);
+
+    useEffect(() => {
+        console.log(notifications)
+    })
 
     return (
         <>

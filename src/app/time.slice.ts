@@ -13,6 +13,8 @@ type TimeState = {
     selectedRegion: string | null;
     currentTimeResponse: WorldTimeApiResponseSchema | null;
     testTimezoneData: object;
+    fetchAllTimezonesHasErrors: boolean;
+    getCurrentTimeInTimezoneHasErrors: boolean;
 };
 
 const initialState: TimeState = {
@@ -32,6 +34,8 @@ const initialState: TimeState = {
         },
         CET: "CET",
     },
+    fetchAllTimezonesHasErrors: false,
+    getCurrentTimeInTimezoneHasErrors: false,
 };
 
 // types cannot be inferred, so must be explicitly set
@@ -104,6 +108,7 @@ export const timeState = createSlice({
             .addCase(fetchAllTimezones.fulfilled, (state, { payload }) => {
                 state.timezones = generateTimezoneObject(payload);
                 state.isLoading = false;
+                state.fetchAllTimezonesHasErrors = false;
             })
             .addCase(getCurrentTimeInTimezone.pending, (state, action) => {
                 state.isLoading = true;
@@ -113,9 +118,15 @@ export const timeState = createSlice({
                 (state, { payload }) => {
                     state.currentTimeResponse = payload;
                     state.isLoading = false;
+                    state.getCurrentTimeInTimezoneHasErrors = false;
                 }
-            );
-        // TODO: add rejection cases
+            )
+            .addCase(fetchAllTimezones.rejected, (state, action) => {
+                state.fetchAllTimezonesHasErrors = true;
+            })
+            .addCase(getCurrentTimeInTimezone.rejected, (state, action) => {
+                state.getCurrentTimeInTimezoneHasErrors = true;
+            });
     },
 });
 

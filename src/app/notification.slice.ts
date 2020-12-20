@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "./store";
 import { fetchAllTimezones, getCurrentTimeInTimezone } from "./time.slice";
 
 type NotificationTypes = "error" | "success" | "warning" | "information";
@@ -42,5 +43,8 @@ export const notificationSlice = createSlice({
             });
     },
 });
+
+export const notificationsSelector = (state: RootState) =>
+    state.notification.notifications;
 
 export default notificationSlice.reducer;
