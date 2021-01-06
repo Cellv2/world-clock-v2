@@ -134,5 +134,9 @@ export const selectedRegionSelector = (state: RootState) =>
 export const timezonesSelector = (state: RootState) => state.time.timezones;
 export const currentTimeResponseSelector = (state: RootState) =>
     state.time.currentTimeResponse;
+export const fetchAllTimezonesHasErrorsSelector = (state: RootState) =>
+    state.time.fetchAllTimezonesHasErrors;
+export const getCurrentTimeInTimezoneHasErrorsSelector = (state: RootState) =>
+    state.time.getCurrentTimeInTimezoneHasErrors;
 
 export default timeState.reducer;
